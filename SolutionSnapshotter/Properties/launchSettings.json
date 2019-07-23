@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SolutionSnapshotter": {
+      "commandName": "Project",
+      "commandLineArgs": "from-file input.config"
+    }
+  }
+}
