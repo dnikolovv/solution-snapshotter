@@ -46,7 +46,7 @@ let getArgs inputTypeArgs =
             toRootedPath path 
             |> ExistingFilePath.checkIfExisting
         parser.ParseConfiguration(ConfigurationReader.FromAppSettingsFile(configFilePath))
-    | [] -> raise (new ArgumentException "Invalid subcommand.")
+    | [] -> raise (ArgumentException "Invalid subcommand.")
 
 [<EntryPoint>]
 let main argv =

@@ -252,21 +252,21 @@ module Xml =
     /// <summary>
     /// Searches for a node by name.
     /// </summary>
-    let rec findNode name (nodes:XmlNodeList) =
-        let mutable nodeFound = null
+    let rec findNode name (nodes:XmlNodeList) : XmlNode option =
+        let mutable nodeFound = None
         for node in nodes do
-            if node.Name = name then nodeFound <- node
+            if node.Name = name then nodeFound <- Some node
             elif node.HasChildNodes then
                 let node = node.ChildNodes |> findNode name
-                if node <> null then nodeFound <- node
+                if node.IsSome then nodeFound <- node
         nodeFound
     
     /// <summary>
     /// Converts a string to System.Xml.XmlDocument.
     /// </summary>
     let toXmlDocument (string: string) =
-        let document = new XmlDocument()
-        use stream = String.toStream string
+        let document = XmlDocument()
+        use stream = toStream string
         document.Load(stream)
         document
     
@@ -297,8 +297,8 @@ module Xml =
              .GetExecutingAssembly()
              .GetManifestResourceStream(sprintf "%s.%s" Constants.AssemblyName resourceName)
 
-        if stream = null then
-            raise (new InvalidOperationException (sprintf "Tried to retrieve an unexisting embedded resource with name '%s'" resourceName))
+        if isNull stream then
+            raise (InvalidOperationException (sprintf "Tried to retrieve an unexisting embedded resource with name '%s'" resourceName))
 
         stream
 

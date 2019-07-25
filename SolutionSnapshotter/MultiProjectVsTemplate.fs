@@ -6,6 +6,7 @@ module MultiProjectVsTemplate
 open System.Xml
 open Types
 open Utils
+open System
 
 let private rootXmlNamespace = "http://schemas.microsoft.com/developer/vstemplate/2005"
 
@@ -54,9 +55,13 @@ let getTemplate (args:MultiProjectTemplateArgs) : MultiProjectVsTemplate =
     let initialXmlString = getInitialTemplateString args
     let document = toXmlDocument initialXmlString
     let projectCollectionNode = document.ChildNodes |> findNode "ProjectCollection"
-    let (document, _) =
-        projectCollectionNode
-        |> generateProjectXmlLinkNodes document args.Projects
-    { Xml = document.OuterXml
-      LinkElements = args.Projects
-      InnerProjectsTemplateInfo = [] }
+
+    match projectCollectionNode with
+    | Some node ->
+        let (document, _) =
+            node
+            |> generateProjectXmlLinkNodes document args.Projects
+        { Xml = document.OuterXml
+          LinkElements = args.Projects
+          InnerProjectsTemplateInfo = [] }
+    | None -> raise (InvalidOperationException "Could not find the ProjectCollection node. Most likely the initial template string is broken.")
