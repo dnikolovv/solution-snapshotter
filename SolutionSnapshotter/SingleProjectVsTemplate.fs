@@ -25,15 +25,14 @@ let private initialRootTemplate =
 </TemplateContent>
 </VSTemplate>" rootXmlNamespace
 
-let private setProjectRootNode csprojFileName document =
+let private setProjectRootNode csprojFileName document=
     let projectRootNode =
         createNode document "Project" "" rootXmlNamespace [
             ("TargetFileName", csprojFileName);
             ("File", csprojFileName);
             ("ReplaceParameters", "true") ]
     
-    let templateContentNode = document.ChildNodes |> findNode "TemplateContent"
-    
+    let templateContentNode = document.ChildNodes |> findNode "TemplateContent" |> Option.defaultValue null
     let projectRootNode = templateContentNode.AppendChild(projectRootNode) :?> XmlElement
     projectRootNode
 
@@ -43,7 +42,7 @@ let private setProjectItemNodes (rootProjectFiles:string list) (folderHierarchie
         ("ReplaceParameters", "true");
         ("TargetFileName", fileName) ]
 
-    let rec toXmlFolderNode (folderNode:FolderNode) =
+    let rec toXmlFolderNode (folderNode:FolderNode) : XmlElement =
         let folderXmlNode = createNode document "Folder" "" rootXmlNamespace [
             ("Name", folderNode.Name);
             ("TargetFolderName", folderNode.Name) ]

@@ -4,8 +4,6 @@ open Utils
 open Types
 open System.IO
 open Paths
-open Microsoft.Build.Construction
-open Newtonsoft.Json
 
 let private toProjectLink (destination:string) (projectTemplateInfo:ProjectTemplateInfo) : ProjectTemplateLink =
     let vsTemplatePath =

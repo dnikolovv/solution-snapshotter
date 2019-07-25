@@ -3,14 +3,14 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net472</TargetFramework>
-    <AssemblyName>template-generator</AssemblyName>
+    <AssemblyName>solution-snapshotter</AssemblyName>
     <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
-    <AssemblyName>template-generator</AssemblyName>
+    <AssemblyName>solution-snapshotter</AssemblyName>
     <Authors>Dobromir Nikolov</Authors>
     <Company>Dobromir Nikolov</Company>
     <Product>A solution template generator for .NET</Product>
     <Copyright>Dobromir Nikolov</Copyright>
-    <Description>Parses your project's solution and folder structure and creates a ready-to-go VSIX template.</Description>
+    <Description>Parses your project's solution and folder structure and creates a ready to be installed VSIX template.</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -51,11 +51,10 @@
     <EmbeddedResource Include="WizardTemplate.zip" />
   </ItemGroup>
 
-  <ItemGroup />
-
   <ItemGroup>
     <PackageReference Include="Costura.Fody" Version="4.0.0" />
     <PackageReference Include="Argu" Version="5.5.0" />
+    <PackageReference Include="FSharpLint.Core" Version="0.12.2" />
     <PackageReference Include="Microsoft.Build" Version="16.0.461" />
     <PackageReference Include="Microsoft.Build.Framework" Version="16.0.461" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />

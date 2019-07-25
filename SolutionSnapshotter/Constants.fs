@@ -12,6 +12,6 @@ let AssemblyName = "SolutionSnapshotter"
 let StructureJson = "structure.json"
 let TemplateZip = "Template.zip"
 let DefaultDestinationFolderName = "generated-template"
-let ProgramName = "template-generator.exe"
+let ProgramName = "solution-snapshotter.exe"
 let WizardTemplateZip = "WizardTemplate.zip"
 

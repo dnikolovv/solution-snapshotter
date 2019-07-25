@@ -9,51 +9,57 @@ open System.IO.Compression
 open System.Text.RegularExpressions
 open Paths
 
-let private findVsixNode nodeName (vsixManifestXml:XmlDocument) =
+let vsixDefaultNamespace = "http://schemas.microsoft.com/developer/vsx-schema/2011"
+
+let private findVsixManifestNode nodeName (vsixManifestXml:XmlDocument) =
+    vsixManifestXml.ChildNodes
+    |> findNode nodeName
+
+let private getVsixManifestNode nodeName (vsixManifestXml:XmlDocument) =
     let node =
         vsixManifestXml.ChildNodes
         |> findNode nodeName
 
-    node
+    match node with
+    | Some n -> n
+    | None ->
+        raise
+            (InvalidOperationException
+                (sprintf "Expected to find node %s inside the template manifest, but it didn't exist. Most likely this means a broken WizardTemplate.zip." nodeName))
 
-let private setVsixIdentityAttribute (attributeName:string) value (vsixManifest:FileInfo) =
-    let vsixManifestXml =
-        File.ReadAllText(vsixManifest.FullName)
-        |> toXmlDocument
-
-    let identityNode = vsixManifestXml |> findVsixNode "Identity"
+let private setVsixIdentityAttribute (attributeName:string) value (vsixManifest:XmlDocument) =
+    let identityNode = vsixManifest |> getVsixManifestNode "Identity"
     identityNode.Attributes.[attributeName].Value <- value
-    identityNode.OwnerDocument.Save(vsixManifest.FullName)
     vsixManifest
 
-let private setVsixNodeValue nodeName value (vsixManifest:FileInfo) =
-    // TODO: Duplication
-    let vsixManifestXml =
-        File.ReadAllText(vsixManifest.FullName)
-        |> toXmlDocument
-
-    let node = findVsixNode nodeName vsixManifestXml
-    node.InnerText <- value
-    node.OwnerDocument.Save(vsixManifest.FullName)
+let private setVsixManifestMetadataNode nodeName value (vsixManifest:XmlDocument) =
+    let node = vsixManifest |> findVsixManifestNode nodeName
+    match node with
+    | Some n -> n.InnerText <- value
+    | None ->
+        let metadataNode = vsixManifest |> getVsixManifestNode "Metadata"
+        let newNode = createNode vsixManifest nodeName value vsixDefaultNamespace []
+        metadataNode.AppendChild(newNode) |> ignore
+        ()
     vsixManifest
 
 let private setGettingStartedGuide gettingStartedGuide vsixManifest =
-    setVsixNodeValue "GettingStartedGuide" gettingStartedGuide vsixManifest
+    setVsixManifestMetadataNode "GettingStartedGuide" gettingStartedGuide vsixManifest
 
 let private setMoreInfo moreInfo vsixManifestFile =
-    setVsixNodeValue "MoreInfo" moreInfo vsixManifestFile
+    setVsixManifestMetadataNode "MoreInfo" moreInfo vsixManifestFile
 
 let private setDescription description vsixManifest =
-    setVsixNodeValue "Description" description vsixManifest
+    setVsixManifestMetadataNode "Description" description vsixManifest
 
 let private setDisplayName displayName vsixManifest =
-    setVsixNodeValue "DisplayName" displayName vsixManifest
+    setVsixManifestMetadataNode "DisplayName" displayName vsixManifest
 
 let private setIcon iconName vsixManifest =
-    setVsixNodeValue "Icon" iconName vsixManifest
+    setVsixManifestMetadataNode "Icon" iconName vsixManifest
 
 let private setTags (tags:List<string>) vsixManifest =
-    setVsixNodeValue "Tags" (String.Join(",", tags)) vsixManifest
+    setVsixManifestMetadataNode "Tags" (String.Join(",", tags)) vsixManifest
 
 let private setPublisher publisher vsixManifest =
     setVsixIdentityAttribute "Publisher" publisher vsixManifest
@@ -61,7 +67,7 @@ let private setPublisher publisher vsixManifest =
 let private setVersion version vsixManifest =
     setVsixIdentityAttribute "Version" version vsixManifest
 
-let private replaceIdAttribute customId wizardName vsixManifest =
+let private setIdAttribute customId wizardName vsixManifest =
     setVsixIdentityAttribute
         "Id"
         (customId |> Option.defaultValue (sprintf "%s.%s" wizardName (Guid.NewGuid().ToString())))
@@ -168,20 +174,25 @@ let generateWizard (args:GenerateTemplateWizardArgs) =
         |> addPublishManifestFile args
         |> moveFolderContents args.Destination
 
-    let vsixManifestFile = generatedWizardDirectory |> ExistingDirPath.getFirstFile "*.vsixmanifest"
+    let vsixManifestFile =
+        generatedWizardDirectory
+        |> ExistingDirPath.getFirstFile "*.vsixmanifest"
 
-    vsixManifestFile
-    |> replaceIdAttribute args.CustomId args.WizardName
-    |> setIcon args.IconName
-    |> setVersion args.Version
-    |> setPublisher args.Publisher
-    |> setDisplayName args.DisplayName
-    |> setDescription args.Description
-    |> setMoreInfo args.MoreInfo
-    |> setGettingStartedGuide args.GettingStartedGuide
-    |> setTags args.Tags
-    // All side-effects, babe
-    |> ignore
+    let newVsixManifest =
+        vsixManifestFile
+        |> fun f -> File.ReadAllText(f.FullName)
+        |> toXmlDocument
+        |> setIdAttribute args.CustomId args.WizardName
+        |> setIcon args.IconName
+        |> setVersion args.Version
+        |> setPublisher args.Publisher
+        |> setDisplayName args.DisplayName
+        |> setDescription args.Description
+        |> setMoreInfo args.MoreInfo
+        |> setGettingStartedGuide args.GettingStartedGuide
+        |> setTags args.Tags
+
+    newVsixManifest.Save(vsixManifestFile.FullName)
 
     let vsixCsprojPath = args.Destination |> ExistingDirPath.combineWith (sprintf "%s.csproj" args.WizardName)
     vsixCsprojPath
