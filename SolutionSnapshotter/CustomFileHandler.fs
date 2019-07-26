@@ -1,7 +1,7 @@
 ﻿module CustomFileHandler
 
 open Utils
-open Paths
+open UtilTypes
 open System.IO
 
 let private saveFileToDestination fileName (stream:Stream) destination =

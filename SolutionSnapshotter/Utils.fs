@@ -18,7 +18,7 @@ module Collections =
 
 [<AutoOpen>]
 module Directories =
-    open Paths
+    open UtilTypes
     
     let rec private getDirectoryParentHierarchyRec (directory:DirectoryInfo) (parentUpperBoundaryPath:string option) (hierarchy:List<DirectoryInfo>) =
         if directory = null || directory.Parent = null
@@ -301,4 +301,3 @@ module Xml =
             raise (InvalidOperationException (sprintf "Tried to retrieve an unexisting embedded resource with name '%s'" resourceName))
 
         stream
-

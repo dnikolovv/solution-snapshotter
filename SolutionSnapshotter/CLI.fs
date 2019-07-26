@@ -10,7 +10,8 @@ type Arguments =
     | [<Mandatory>] Root_Project_Namespace of ``namespace``:string
     | [<Mandatory>] Path_To_Sln of path:string
     | [<Mandatory>] Vsix_Version of version:string
-    | [<Mandatory>] Vsix_Publisher of publisher:string
+    | [<Mandatory>] Vsix_Publisher_Full_Name of publisher:string
+    | [<Mandatory>] Vsix_Publisher_Username of publisher:string
     | [<Mandatory>] Vsix_Display_Name of displayName:string
     | [<Mandatory>] Vsix_Description of description:string
     | [<Mandatory>] Vsix_More_Info of info:string
@@ -26,8 +27,8 @@ type Arguments =
     | [<EqualsAssignment>] Vsix_Custom_Id of id:string
     | [<EqualsAssignment>] Custom_Template_Icon of iconPath:string
     | [<EqualsAssignment>] Destination of destination:string
+    | [<EqualsAssignment>] Vsix_Tags of tags: string
     | Vsix_Categories of categories:string list
-    | Vsix_Tags of tags: string list
     | Folders_To_Ignore of folderNames:string list
     | File_Extensions_To_Ignore of extensions: string list
     with
@@ -40,7 +41,8 @@ type Arguments =
             | Root_Project_Namespace _ -> "Sets the project root namespace (e.g. MyProject)."
             | Path_To_Sln _ -> "Sets the path to the source project .sln file."
             | Vsix_Version _ -> "Sets the version of the generated VSIX assembly."
-            | Vsix_Publisher _ -> "Sets the publisher of the generated VSIX assembly."
+            | Vsix_Publisher_Full_Name _ -> "The publisher's full name on the marketplace (e.g. John Smith)."
+            | Vsix_Publisher_Username _ -> "The publisher's username on the marketplace (e.g. jsmith12)."
             | Vsix_Display_Name _ -> "Sets the display name of the generated VSIX assembly."
             | Vsix_Description _ -> "Sets the description of the generated VSIX assembly."
             | Vsix_More_Info _ -> "Sets the 'More Info' tag of the generated VSIX assembly."
