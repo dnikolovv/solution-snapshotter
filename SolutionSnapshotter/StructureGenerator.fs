@@ -4,7 +4,7 @@ open Types
 open Utils
 open System.IO
 open Microsoft.Build.Construction
-open Paths
+open UtilTypes
 
 let rec private buildNodeFromFolder (folder:ProjectInSolution) (allFolders:List<ProjectInSolution>) pathUntilNow =
     let node =

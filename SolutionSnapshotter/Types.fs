@@ -1,7 +1,7 @@
 ﻿module Types
 
 open System.IO
-open Paths
+open UtilTypes
 open Newtonsoft.Json
 open JsonConverters
 
@@ -125,7 +125,8 @@ type GenerateTemplateWizardArgs =
       Destination: ExistingDirPath
       Version: string
       IconName: string
-      Publisher: string
+      PublisherFullName: string
+      PublisherUsername: string
       DisplayName: string
       Description: string
       MoreInfo: string
@@ -139,7 +140,7 @@ type GenerateTemplateWizardArgs =
       CustomPackageGuid: string option
       CustomProjectGuid: string option
       CustomId: string option
-      Tags: List<string> }
+      Tags: String50 }
 
 type WizardPublishManifest =
     { Categories: List<string>

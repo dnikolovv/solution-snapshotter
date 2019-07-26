@@ -1,6 +1,6 @@
 ﻿module ProjectToTemplateConverter
 
-open Paths
+open UtilTypes
 open Newtonsoft.Json
 open Microsoft.Build.Construction
 open System.IO

@@ -23,11 +23,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Compile Include="Constants.fs" />
-    <Compile Include="Paths.fs" />
+    <Compile Include="UtilTypes.fs" />
     <Compile Include="JsonConverters.fs" />
     <Compile Include="Types.fs" />
-    <Compile Include="PublishManifestGenerator.fs" />
     <Compile Include="Utils.fs" />
+    <Compile Include="PublishManifestGenerator.fs" />
     <Compile Include="StructureGenerator.fs" />
     <Compile Include="ExtraFoldersParser.fs" />
     <Compile Include="SolutionInfoParser.fs" />

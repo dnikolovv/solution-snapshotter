@@ -4,7 +4,7 @@ open System
 open System.IO
 open Utils
 open Types
-open Paths
+open UtilTypes
 
 let private shouldIgnoreExtraFolder (directory:DirectoryInfo) fileExtensionsToIgnore =
     let files = directory.GetFiles()

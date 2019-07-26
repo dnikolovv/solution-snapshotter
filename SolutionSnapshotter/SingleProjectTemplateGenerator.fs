@@ -3,7 +3,7 @@
 open Types
 open System.IO
 open Utils
-open Paths
+open UtilTypes
 
 let private copyProjectToTemplateDestination (csprojPath:ExistingFilePath) (templateDestination:ExistingDirPath) (foldersToIgnore:List<string>) =
     let projectDirectory = ExistingFilePath.getDirectoryName csprojPath

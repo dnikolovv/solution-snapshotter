@@ -1,4 +1,4 @@
-﻿namespace Paths
+﻿namespace UtilTypes
 
 open System
 open System.IO
@@ -14,6 +14,18 @@ type ExistingFilePath = private ExistingFilePath of string
 type RelativePath = private RelativePath of string
 
 type ExistingFile = private ExistingFile of FileInfo
+
+type String50 = private String50 of string
+
+[<RequireQualifiedAccess>]
+module String50 =
+
+    let create (str:string) =
+        if str.Length > 50 then
+            raise (ArgumentException (sprintf "Expected '%s' to be less than 50 characters, but was %d." str str.Length))
+        String50 str
+
+    let value (String50 str) = str
 
 [<RequireQualifiedAccess>]
 module ExistingDir =

@@ -7,7 +7,7 @@ open System.Xml
 open System.IO
 open System.IO.Compression
 open System.Text.RegularExpressions
-open Paths
+open UtilTypes
 
 let vsixDefaultNamespace = "http://schemas.microsoft.com/developer/vsx-schema/2011"
 
@@ -58,8 +58,8 @@ let private setDisplayName displayName vsixManifest =
 let private setIcon iconName vsixManifest =
     setVsixManifestMetadataNode "Icon" iconName vsixManifest
 
-let private setTags (tags:List<string>) vsixManifest =
-    setVsixManifestMetadataNode "Tags" (String.Join(",", tags)) vsixManifest
+let private setTags tags vsixManifest =
+    setVsixManifestMetadataNode "Tags" (tags |> String50.value) vsixManifest
 
 let private setPublisher publisher vsixManifest =
     setVsixIdentityAttribute "Publisher" publisher vsixManifest
@@ -139,11 +139,18 @@ let private addTemplateToWizard templateZip (templateDirectory:ExistingDirPath) 
     templateDirectory
 
 let private addPublishManifestFile (args:GenerateTemplateWizardArgs) templateDirectory =
+    let tags =
+        args.Tags
+        |> String50.value
+        |> fun s -> s.Split [|','|]
+        |> Seq.map (fun s -> s.Trim(' '))
+        |> List.ofSeq
+        
     let publishManifest =
         { Categories = args.Categories
           Overview = args.OverviewMdPath
           PriceCategory = args.PriceCategory
-          Publisher = args.Publisher
+          Publisher = args.PublisherUsername
           Qna = args.Qna
           Repo = args.Repo
           Identity =
@@ -151,7 +158,7 @@ let private addPublishManifestFile (args:GenerateTemplateWizardArgs) templateDir
                 Version = args.Version
                 DisplayName = args.DisplayName
                 Description = args.Description
-                Tags = args.Tags }}
+                Tags = tags }}
 
     let publishManifestJson = PublishManifestGenerator.generatePublishManifestJson publishManifest
     let manifestJsonPath = templateDirectory |> ExistingDirPath.combineWith "publishManifest.json"
@@ -185,7 +192,7 @@ let generateWizard (args:GenerateTemplateWizardArgs) =
         |> setIdAttribute args.CustomId args.WizardName
         |> setIcon args.IconName
         |> setVersion args.Version
-        |> setPublisher args.Publisher
+        |> setPublisher args.PublisherFullName
         |> setDisplayName args.DisplayName
         |> setDescription args.Description
         |> setMoreInfo args.MoreInfo

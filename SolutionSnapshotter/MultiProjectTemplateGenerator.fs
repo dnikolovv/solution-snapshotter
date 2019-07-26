@@ -3,7 +3,7 @@
 open Utils
 open Types
 open System.IO
-open Paths
+open UtilTypes
 
 let private toProjectLink (destination:string) (projectTemplateInfo:ProjectTemplateInfo) : ProjectTemplateLink =
     let vsTemplatePath =

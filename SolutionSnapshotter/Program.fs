@@ -2,7 +2,7 @@
 open Argu
 open CLI
 open Utils
-open Paths
+open UtilTypes
 open System
 
 let getDefaultDestinationPath =
@@ -89,7 +89,8 @@ let main argv =
                   RootProjectPath = rootProjectPath }
 
         let vsixVersion = args.GetResult Vsix_Version
-        let vsixPublisher = args.GetResult Vsix_Publisher
+        let vsixPublisherFullName = args.GetResult Vsix_Publisher_Full_Name
+        let vsixPublisherUsername = args.GetResult Vsix_Publisher_Username
         let vsixDisplayName = args.GetResult Vsix_Display_Name
         let vsixDescription = args.GetResult Vsix_Description
         let vsixMoreInfo = args.GetResult Vsix_More_Info
@@ -102,7 +103,7 @@ let main argv =
         let vsixPriceCategory = args.GetResult Vsix_Price_Category
         let vsixQnaEnable = args.GetResult Vsix_Qna_Enable
         let vsixRepo = args.TryGetResult Vsix_Repo
-        let vsixTags = args.GetResult Vsix_Tags
+        let vsixTags = args.TryGetResult Vsix_Tags |> Option.defaultValue "" |> String50.create
 
         let vsixProjectDestination =
             Path.Combine(rootTemplateDestination, "vsix")
@@ -126,7 +127,8 @@ let main argv =
                   Destination = vsixProjectDestination
                   IconName = vsixIconName
                   Version = vsixVersion
-                  Publisher = vsixPublisher
+                  PublisherFullName = vsixPublisherFullName
+                  PublisherUsername = vsixPublisherUsername
                   PriceCategory = vsixPriceCategory
                   DisplayName = vsixDisplayName
                   Qna = vsixQnaEnable

@@ -5,7 +5,7 @@ open System.Collections.Generic
 open Utils
 open Microsoft.Build.Construction
 open Types
-open Paths
+open UtilTypes
 
 let private toProjectInfo (solution:SolutionFile) (csproj:FileInfo) : ProjectInfo =
     let getProjectId csprojFullPath =
