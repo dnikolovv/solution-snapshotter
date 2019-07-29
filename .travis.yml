@@ -3,6 +3,11 @@ solution: SolutionSnapshotter.sln
 
 script:
   - msbuild SolutionSnapshotter.sln -p:Configuration=Release -p:OutputPath=artifacts
+  - ls
+  - cd SolutionSnapshotter
+  - ls
+  - cd artifacts
+  - ls
 
 deploy:
   api_key: $GITHUB_TOKEN
