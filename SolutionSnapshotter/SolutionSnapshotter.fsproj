@@ -18,6 +18,10 @@
     <OtherFlags></OtherFlags>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <WarningLevel>0</WarningLevel>
+  </PropertyGroup>
+
   <ItemGroup>
     <Content Include="input.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -54,9 +58,7 @@
   <ItemGroup>
     <PackageReference Include="Costura.Fody" Version="4.0.0" />
     <PackageReference Include="Argu" Version="5.5.0" />
-    <PackageReference Include="FSharpLint.Core" Version="0.12.2" />
     <PackageReference Include="Microsoft.Build" Version="16.0.461" />
-    <PackageReference Include="Microsoft.Build.Framework" Version="16.0.461" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
 </Project>
