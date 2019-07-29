@@ -172,7 +172,7 @@ OPTIONS:
 
 When supplying a `.config` file, use the same arguments, but instead of dashes, use spaces for the key values.
 
-Example.
+Example:
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -204,4 +204,11 @@ Example.
     <add key="vsix tags" value="template,generation" />
   </appSettings>
 </configuration>
+```
+
+```console
+> solution-snapshotter.exe from-file input.config
+
+Successfully converted <YourProject>.sln to a template!
+You'll find the zipped template at 'C:\some-path\Template.zip' and VSIX project at 'C:\some-path\SomeRandomWizard.csproj'.
 ```
