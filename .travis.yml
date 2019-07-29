@@ -1,6 +1,5 @@
-build:
-  language: csharp
-  solution: SolutionSnapshotter.sln
+language: csharp
+solution: SolutionSnapshotter.sln
 
 deploy:
   provider: releases
