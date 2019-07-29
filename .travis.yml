@@ -8,7 +8,6 @@ deploy:
   provider: releases
   skip_cleanup: true
   api_key: $GITHUB_TOKEN
-  draft: true
   file: SolutionSnapshotter/artifacts/solution-snapshotter.exe
   on:
     tags: true
