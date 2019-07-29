@@ -148,5 +148,5 @@ let main argv =
         printfn "You'll find the zipped template at '%s' and VSIX project at '%s'." (templateZipPath |> ExistingFilePath.value) vsixCsprojPath
         0
     with e ->
-        eprintfn "Error: %s" e.Message
+        eprintfn "%s" e.Message
         1
