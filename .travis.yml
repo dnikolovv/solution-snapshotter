@@ -1,9 +1,13 @@
 language: csharp
 solution: SolutionSnapshotter.sln
+
+script:
+  - msbuild SolutionSnapshotter.sln -p:Configuration=Release -p:OutputPath=artifacts
+
 deploy:
   api_key: $GITHUB_TOKEN
   draft: true
-  file: .\SolutionSnapshotter\bin\Release\net472\win7-x64\solution-snapshotter.exe
+  file: \SolutionSnapshotter\artifacts\solution-snapshotter.exe
   provider: releases
   skip_cleanup: true
   on:
