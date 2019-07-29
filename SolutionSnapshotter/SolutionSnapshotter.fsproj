@@ -6,16 +6,25 @@
     <AssemblyName>solution-snapshotter</AssemblyName>
     <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
     <AssemblyName>solution-snapshotter</AssemblyName>
-    <Authors>Dobromir Nikolov</Authors>
-    <Company>Dobromir Nikolov</Company>
-    <Product>A solution template generator for .NET</Product>
-    <Copyright>Dobromir Nikolov</Copyright>
-    <Description>Parses your project's solution and folder structure and creates a ready to be installed VSIX template.</Description>
+    <Authors>Dobromir Nikolov (dnikolovv)</Authors>
+    <Company>Dobromir Nikolov (dnikolovv)</Company>
+    <Product>A solution template generator for .NET projects.</Product>
+    <Copyright>Dobromir Nikolov (dnikolovv)</Copyright>
+    <Description>Take a snapshot of your solution and instantly export it as a Visual Studio extension.</Description>
+    <Version>0.1.0</Version>
+    <RepositoryUrl>https://github.com/dnikolovv/solution-snapshotter</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/dnikolovv/solution-snapshotter</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <WarningLevel>4</WarningLevel>
     <OtherFlags></OtherFlags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <WarningLevel>0</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
@@ -54,9 +63,7 @@
   <ItemGroup>
     <PackageReference Include="Costura.Fody" Version="4.0.0" />
     <PackageReference Include="Argu" Version="5.5.0" />
-    <PackageReference Include="FSharpLint.Core" Version="0.12.2" />
     <PackageReference Include="Microsoft.Build" Version="16.0.461" />
-    <PackageReference Include="Microsoft.Build.Framework" Version="16.0.461" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
 </Project>

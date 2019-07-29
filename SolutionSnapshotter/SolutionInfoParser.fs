@@ -57,6 +57,8 @@ let parseProjectInfo pathToSln =
 
     let rootProjectPath = Path.GetDirectoryName(pathToSln)
     let solution = SolutionFile.Parse(pathToSln)
+
+    // TODO: Maybe we can get those csproj files from the parsed .sln
     let csprojFiles = scanForFiles rootProjectPath "*.csproj"
 
     csprojFiles

@@ -21,7 +21,7 @@ let private saveCustomFile customFilePath destination =
     fileName
 
 /// <summary>
-/// Copies a custom file to a destination.
+/// Copies a custom file to a destination and returns its name. (not path)
 /// </summary>
 let setCustomFile customFilePath (destination:ExistingDirPath) =
     let destination = destination |> ExistingDirPath.value

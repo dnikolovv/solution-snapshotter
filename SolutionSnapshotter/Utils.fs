@@ -58,8 +58,7 @@ module Directories =
                 }
         }
 
-    // TODO: Weird naming. Search for a convention
-    let private _buildHierarchies directories : FolderNode seq =
+    let private buildHierarchiesFromDirs directories : FolderNode seq =
         seq {
             for (directory:DirectoryInfo) in directories do
                 yield {
@@ -91,7 +90,7 @@ module Directories =
             |> Seq.filter (shouldBeIgnored foldersToIgnore >> not)
             |> List.ofSeq
 
-        _buildHierarchies ([directory] @ subDirectories)
+        buildHierarchiesFromDirs ([directory] @ subDirectories)
 
     let scanForFiles rootPath pattern =
         if (not <| Directory.Exists rootPath) then
@@ -117,7 +116,6 @@ module Directories =
 
         Directory.Delete(source)
         targetPath
-
 
     /// <summary>
     /// Scans the folder structure recursively.
