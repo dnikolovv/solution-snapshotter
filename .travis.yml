@@ -3,7 +3,6 @@ solution: SolutionSnapshotter.sln
 
 script:
   - msbuild SolutionSnapshotter.sln -p:Configuration=Release -p:OutputPath=artifacts
-  - ls SolutionSnapshotter/artifacts
 
 deploy:
   provider: releases
