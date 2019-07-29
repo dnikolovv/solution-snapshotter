@@ -43,7 +43,7 @@ Whether you chose the `.zip` or the Visual Studio extension path, maintenance is
 
 When you export a project as a template, it's no longer something that you can compile and run. Any changes you want to make mean that you'll be digging inside plain text files (or full of compile-time error files). If you want to test your changes, you'll have to start up a Visual Studio instance and run your extension inside it. Great if you want to spend 30 minutes updating a NuGet package version and a few variable names.
 
-### physical folders, oh no
+### physical folders? oh no
 
 When setting up a new project, you probably use a clean and tidy physical folder structure. Perhaps something like this?
 
