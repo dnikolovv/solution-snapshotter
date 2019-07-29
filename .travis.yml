@@ -1,2 +1,12 @@
 language: csharp
 solution: SolutionSnapshotter.sln
+
+deploy:
+  provider: releases
+  api_key:
+    secure: ig74RxyYm0bPvOmWzMaTm5dYhOg/Hnp6Ax5jzn75U+3OO0PeCrdxRpu7gaGCLnwHzrrOQOYzNT+7soPi6y7VfhF6YGY8Rg7j9/O9YfKsT6hqfj2XfdLDUNAKKfNhZ2WZHhF+BkXb3bPKJK6g23r8aLCeytgMrVTTVAN8d1eDtBqWjNtoVfcgFBuxUIui2yxAt5Gv6+3yLiFOuP4JJX3DL4iez+U15nOVdy7zOHmFKOSfbwW5fOA99FGYwN+rCRXRqlFuwKtjoRHhF/ntc1vg753gWQ3PJj91FfJERo7j1FJmXFW0NarqHYNiDam2WZ2afS8HT00U/1NgNxGDbxKJT8QZMwNMmW1Zn3QEooxq9WLshSn4QOBSAIuHUdtw4JRSQy+evR+zkToELK/9z1RClN7cAA30kDaIC0Fsm197+Eo74JOv4uj3q9rBl4U5i5M05uV/I/jK+3E3JVfz1qdhuf2OxtM6gDEfO/2MmI5SHyqWzeMKnLEVgBkR00zgBV0g6CM0ZggOhb0/w/TbIdyEqlzEh5PoZH6PCotT7jiziak1Fp99PMNoMPkU0L+BT+bztu9fF9BWousbzRZ0JDxwa2/DtjNL2Hjr2/C8xoeUFYd3PGoUhF0nBQNakQOWewmc4QlpHch+GrG14Zwmc94vzJBKvcFTEc0AJYYMXHqT+DM=
+  file: "\SolutionSnapshotter\\bin\Release\\net472\win7-x64\solution-snapshotter.exe"
+  skip_cleanup: true
+  draft: true
+  on:
+    tags: true
