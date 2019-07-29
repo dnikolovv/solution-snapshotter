@@ -15,7 +15,7 @@ let private shouldIgnoreExtraFolder (directory:DirectoryInfo) fileExtensionsToIg
 
 /// <summary>
 /// Retrieves extra (non-project) folders.
-/// An extra folder is also the "root" if it contains files other than the ignored extensions (e.g. the .gitignore, .dockerignore next to the .sln).
+/// An extra folder is also the "rootProjectPath" if it contains files other than the ignored extensions (e.g. .gitignore, .dockerignore, etc. that are next to the .sln).
 /// </summary>
 let findAndCopyExtraFolders rootProjectPath destination (foldersToIgnore:string list) (fileExtensionsToIgnore:string list) =
     let rootProjectPath = rootProjectPath |> ExistingDirPath.value
