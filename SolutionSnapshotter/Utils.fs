@@ -92,13 +92,16 @@ module Directories =
 
         buildHierarchiesFromDirs ([directory] @ subDirectories)
 
-    let scanForFiles rootPath pattern =
+    let scanForFiles rootPath (patterns:string list) =
         if (not <| Directory.Exists rootPath) then
             raise (new InvalidOperationException "Tried to scan an invalid directory.")
 
         let directory = DirectoryInfo rootPath
 
-        directory.EnumerateFiles(pattern, SearchOption.AllDirectories)
+        patterns
+        |> List.collect (fun pattern ->
+            directory.EnumerateFiles(pattern, SearchOption.AllDirectories)
+            |> List.ofSeq)
 
     let moveFolderContents (targetPath:ExistingDirPath) (source:ExistingDirPath) =
         let source = source |> ExistingDirPath.value
@@ -127,7 +130,7 @@ module Directories =
             raise (new InvalidOperationException "Tried to scan an invalid directory.")
 
         let directoriesToIgnore =
-            scanForFiles rootPath pattern
+            scanForFiles rootPath [pattern]
             |> Seq.map (fun f -> f.DirectoryName)
             |> List.ofSeq
 

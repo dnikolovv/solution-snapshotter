@@ -7,11 +7,7 @@ open Microsoft.Build.Construction
 open Types
 open UtilTypes
 
-let private toProjectInfo (solution:SolutionFile) (csproj:FileInfo) : ProjectInfo =
-    let getProjectId csprojFullPath =
-        (solution.ProjectsInOrder
-        |> Seq.find (fun p -> p.AbsolutePath = csprojFullPath)).ProjectGuid
-
+let private toProjectInfo (solution:SolutionFile) (projectId, projectFile) : ProjectInfo =
     let getByGuid projectGuid =
         if projectGuid = null
             then null
@@ -38,11 +34,10 @@ let private toProjectInfo (solution:SolutionFile) (csproj:FileInfo) : ProjectInf
 
         parentNames
         |> String.concat "\\"
-        
-    let projectId = getProjectId csproj.FullName
+
     let solutionDestinationPath = getSolutionDestinationPath projectId
         
-    { Csproj = ExistingFile.create csproj
+    { ProjectFile = projectFile
       SolutionDestinationPath = Path.createRelative solutionDestinationPath }
 
 /// <summary>
@@ -55,12 +50,18 @@ let private toProjectInfo (solution:SolutionFile) (csproj:FileInfo) : ProjectInf
 let parseProjectInfo pathToSln = 
     let pathToSln = pathToSln |> ExistingFilePath.value
 
-    let rootProjectPath = Path.GetDirectoryName(pathToSln)
     let solution = SolutionFile.Parse(pathToSln)
 
-    // TODO: Maybe we can get those csproj files from the parsed .sln
-    let csprojFiles = scanForFiles rootProjectPath "*.csproj"
+    let projectFiles =
+        solution.ProjectsInOrder
+        |> Seq.filter (fun p -> p.ProjectType <> SolutionProjectType.SolutionFolder)
+        |> Seq.map (fun p -> (p.ProjectGuid, p.AbsolutePath |> FileInfo |> ExistingFile.wrap))
 
-    csprojFiles
+    // TODO: Maybe we can get those csproj files from the parsed .sln
+    //let rootProjectPath = Path.GetDirectoryName(pathToSln)
+    // Yes, we can, and with it provide the project id
+    //let projectFiles = scanForFiles rootProjectPath ["*.csproj"; "*.fsproj"]
+
+    projectFiles
     |> Seq.map (toProjectInfo solution)
     |> List.ofSeq

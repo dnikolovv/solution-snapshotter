@@ -26,7 +26,7 @@ let private generateProjectLinkElements projectTemplates destination =
 let private generateSingleTemplate generator (args:MultiProjectTemplateArgs) projectInfo =
     let destination = args.Destination |> ExistingDirPath.value
     let pathToCsproj =
-        projectInfo.Csproj
+        projectInfo.ProjectFile
         |> ExistingFile.value
         |> fun f -> f.FullName
         |> ExistingFilePath.create

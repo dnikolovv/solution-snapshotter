@@ -15,7 +15,7 @@ type ProjectTemplateLink =
       OriginalCsprojPath: string }
 
 type ProjectInfo =
-    { Csproj: ExistingFile
+    { ProjectFile: ExistingFile
       SolutionDestinationPath: RelativePath }
 
 type ProjectTemplateInfo =

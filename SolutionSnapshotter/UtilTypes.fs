@@ -82,7 +82,7 @@ module ExistingDirPath =
 [<RequireQualifiedAccess>]
 module ExistingFile =
     
-    let create (file:FileInfo) =
+    let wrap (file:FileInfo) =
         if not <| file.Exists then
             raise (new ArgumentException (sprintf "%s should've been an existing file, but wasn't." file.FullName))
         else
