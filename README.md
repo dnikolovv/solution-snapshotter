@@ -24,7 +24,7 @@ The input is the [source folder](https://github.com/dnikolovv/devadventures-net-
 
 with your project setup ready
 
-![1](example-pictures\step1.png)
+![1](example-pictures/step1.png)
 
 call `solution-snapshotter`
 
