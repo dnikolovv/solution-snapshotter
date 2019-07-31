@@ -73,9 +73,12 @@ let private setIdAttribute customId wizardName vsixManifest =
         (customId |> Option.defaultValue (sprintf "%s.%s" wizardName (Guid.NewGuid().ToString())))
         vsixManifest
 
+let private getProjectFile (templateDirectory:DirectoryInfo) wizardName =
+    templateDirectory.GetFiles(sprintf "%s.*sproj" wizardName).[0]
+
 let private replaceProjectGuid customProjectGuid wizardName (templateDirectory:DirectoryInfo) =
-    let csprojFile = templateDirectory.GetFiles(sprintf "%s.csproj" wizardName).[0]
-    let contents = File.ReadAllText(csprojFile.FullName)
+    let projFile = getProjectFile templateDirectory wizardName
+    let contents = File.ReadAllText(projFile.FullName)
 
     let id =
         customProjectGuid
@@ -85,9 +88,8 @@ let private replaceProjectGuid customProjectGuid wizardName (templateDirectory:D
     templateDirectory
 
 let private replaceIconName iconName wizardName (templateDirectory:DirectoryInfo) =
-    // TODO: Duplication
-    let csprojFile = templateDirectory.GetFiles(sprintf "%s.csproj" wizardName).[0].FullName
-    replaceInFile csprojFile [(Constants.VsixIconPlaceholder, iconName)] |> ignore
+    let projFile = (getProjectFile templateDirectory wizardName).FullName
+    replaceInFile projFile [(Constants.VsixIconPlaceholder, iconName)] |> ignore
     templateDirectory
 
 let private replacePackageGuidString customPackageId wizardName (templateDirectory:DirectoryInfo) =

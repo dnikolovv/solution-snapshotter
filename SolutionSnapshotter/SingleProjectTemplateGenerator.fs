@@ -5,8 +5,8 @@ open System.IO
 open Utils
 open UtilTypes
 
-let private copyProjectToTemplateDestination (csprojPath:ExistingFilePath) (templateDestination:ExistingDirPath) (foldersToIgnore:List<string>) =
-    let projectDirectory = ExistingFilePath.getDirectoryName csprojPath
+let private copyProjectToTemplateDestination (projFilePath:ExistingFilePath) (templateDestination:ExistingDirPath) (foldersToIgnore:List<string>) =
+    let projectDirectory = ExistingFilePath.getDirectoryName projFilePath
     copyDirectory projectDirectory templateDestination true foldersToIgnore []
 
 let private buildRelativeHierarchies destination foldersToIgnore =
@@ -51,12 +51,12 @@ let private replaceNamespacesAndUsingsInHierarchy nodes rootProjectNamespace =
     List.ofSeq nodes
     |> List.map (replaceNamespacesAndUsingsInNode rootProjectNamespace)
 
-let private generateTemplateXml (templateXmlBuilder: string -> SingleProjectVsTemplate) csprojPath (destination:ExistingDirPath) rootProjectNamespace solutionFolderDestination =
-    let csprojFileName = ExistingFilePath.getFileName csprojPath
+let private generateTemplateXml (templateXmlBuilder: string -> SingleProjectVsTemplate) projFilePath (destination:ExistingDirPath) rootProjectNamespace solutionFolderDestination =
+    let projFileName = ExistingFilePath.getFileName projFilePath
 
-    let template = templateXmlBuilder csprojFileName
+    let template = templateXmlBuilder projFileName
 
-    let projectName = csprojFileName |> cutEnd ".csproj"
+    let projectName = projFileName |> cutEnd ".csproj" |> cutEnd ".fsproj"
     let templateFileName = sprintf "%s.vstemplate" projectName
     
     let destination = ExistingDirPath.value destination
@@ -66,7 +66,7 @@ let private generateTemplateXml (templateXmlBuilder: string -> SingleProjectVsTe
     File.WriteAllText(templateDestination, template.Xml)
 
     { VsTemplatePath = ExistingFilePath.create templateDestination
-      OriginalCsprojPath = csprojPath
+      OriginalProjFilePath = projFilePath
       OriginalProjectName = projectName
       // TODO: This is duplicated somewhere
       SafeProjectName = projectName.Replace(rootProjectNamespace, Constants.SafeProjectName)
@@ -84,8 +84,8 @@ let private getTemplateXmlBuilder hierarchies =
     let rootProjectFiles =
         rootNode.Files
         |> Seq.map (fun f -> f.Name)
-        // We won't include the original .csproj in the generated project
-        |> Seq.filter (fun name -> not <| name.EndsWith("csproj"))
+        // We won't include the original .csproj or .fsproj in the generated project
+        |> Seq.filter (fun name -> not <| name.EndsWith("sproj"))
         |> List.ofSeq
 
     let hierarchies =
@@ -105,7 +105,7 @@ let private getTemplateXmlBuilder hierarchies =
 /// Also generates a .vstemplate file and writes it to the given destination.
 /// </summary>
 let generateTemplate args =
-    copyProjectToTemplateDestination args.CsprojPath args.PhysicalDestination args.FoldersToIgnore
+    copyProjectToTemplateDestination args.ProjFilePath args.PhysicalDestination args.FoldersToIgnore
 
     let hierarchies =
         buildRelativeHierarchies args.PhysicalDestination args.FoldersToIgnore
@@ -117,7 +117,7 @@ let generateTemplate args =
 
     generateTemplateXml
         templateXmlBuilder
-        args.CsprojPath
+        args.ProjFilePath
         args.PhysicalDestination
         args.RootProjectNamespace
         (RelativePath.create args.SolutionDestinationPath)

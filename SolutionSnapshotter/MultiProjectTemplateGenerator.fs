@@ -16,7 +16,7 @@ let private toProjectLink (destination:string) (projectTemplateInfo:ProjectTempl
 
     { VsTemplatePath = vsTemplatePath
       OriginalProjectName = projectTemplateInfo.OriginalProjectName
-      OriginalCsprojPath = ExistingFilePath.value projectTemplateInfo.OriginalCsprojPath
+      OriginalProjFilePath = ExistingFilePath.value projectTemplateInfo.OriginalProjFilePath
       SafeProjectName = safeProjectName }
 
 let private generateProjectLinkElements projectTemplates destination =
@@ -25,27 +25,28 @@ let private generateProjectLinkElements projectTemplates destination =
 
 let private generateSingleTemplate generator (args:MultiProjectTemplateArgs) projectInfo =
     let destination = args.Destination |> ExistingDirPath.value
-    let pathToCsproj =
+    let pathToProjFile =
         projectInfo.ProjectFile
         |> ExistingFile.value
         |> fun f -> f.FullName
         |> ExistingFilePath.create
 
-    let csprojName =
-        pathToCsproj
+    let projFileName =
+        pathToProjFile
         |> ExistingFilePath.getFileName
         |> cutEnd ".csproj"
+        |> cutEnd ".fsproj"
 
     let newTemplateDestination =
-        Path.Combine(destination, csprojName)
+        Path.Combine(destination, projFileName)
         |> ExistingDirPath.createFromNonExistingSafe
 
-    generator {
-        CsprojPath = pathToCsproj
-        PhysicalDestination = newTemplateDestination
-        RootProjectNamespace = args.RootProjectNamespace
-        FoldersToIgnore = args.FoldersToIgnore
-        SolutionDestinationPath = RelativePath.value projectInfo.SolutionDestinationPath }
+    generator
+        { ProjFilePath = pathToProjFile
+          PhysicalDestination = newTemplateDestination
+          RootProjectNamespace = args.RootProjectNamespace
+          FoldersToIgnore = args.FoldersToIgnore
+          SolutionDestinationPath = RelativePath.value projectInfo.SolutionDestinationPath }
 
 let private generateIndividualTemplates generator args =
     args.ProjectsDestinationInfo
@@ -55,7 +56,7 @@ let private generateTemplateXml singleProjectTemplateGenerator (args:MultiProjec
     let destination = args.Destination |> ExistingDirPath.value
     let templates = generateIndividualTemplates singleProjectTemplateGenerator args
     let linkElements = generateProjectLinkElements templates destination
-    let args = {args with Projects = linkElements }
+    let args = { args with Projects = linkElements }
     { MultiProjectVsTemplate.getTemplate args with InnerProjectsTemplateInfo = templates }
 
 let generateVsTemplateFile singleProjectTemplateGenerator (args:MultiProjectTemplateArgs) : MultiProjectTemplateInfo =

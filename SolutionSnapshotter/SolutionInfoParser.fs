@@ -42,9 +42,6 @@ let private toProjectInfo (solution:SolutionFile) (projectId, projectFile) : Pro
 
 /// <summary>
 /// Retrieves information about projects inside a .sln file.
-/// Works under the assumption that the solution will not reference projects
-/// in folders higher in the folder hierarchy.
-/// Only includes projects for which there is a .csproj file.
 /// Does not include solution folders.
 /// </summary>
 let parseProjectInfo pathToSln = 
@@ -56,11 +53,6 @@ let parseProjectInfo pathToSln =
         solution.ProjectsInOrder
         |> Seq.filter (fun p -> p.ProjectType <> SolutionProjectType.SolutionFolder)
         |> Seq.map (fun p -> (p.ProjectGuid, p.AbsolutePath |> FileInfo |> ExistingFile.wrap))
-
-    // TODO: Maybe we can get those csproj files from the parsed .sln
-    //let rootProjectPath = Path.GetDirectoryName(pathToSln)
-    // Yes, we can, and with it provide the project id
-    //let projectFiles = scanForFiles rootProjectPath ["*.csproj"; "*.fsproj"]
 
     projectFiles
     |> Seq.map (toProjectInfo solution)

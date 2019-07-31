@@ -42,15 +42,15 @@ let private parseSolutionFolderStructure (solution:SolutionFile) : SolutionFolde
 
 let private getProjectsDestinationInfo rootProjectPath projectTemplates : List<ProjectDestinationInfoDto> =
     let toProjectDestinationInfoDto (project:ProjectTemplateInfo) =
-        // It is assumed that the project name matches the .csproj name
+        // It is assumed that the project name matches the .*sproj name
         // E.g. MyProject.Business.csproj matches the MyProject.Business project
         // which is located inside the MyProject.Business folder
-        let originalCsprojPath = ExistingFilePath.value project.OriginalCsprojPath
+        let originalProjFilePath = project.OriginalProjFilePath |> ExistingFilePath.value
 
         let destinationDirectory =
-            originalCsprojPath
+            originalProjFilePath
             |> cutStart rootProjectPath
-            |> cutEnd (Path.GetFileName(originalCsprojPath))
+            |> cutEnd (Path.GetFileName(originalProjFilePath))
             |> trimEnd '\\'
             |> cutEnd project.OriginalProjectName
             |> trimEnd '\\'
@@ -58,7 +58,8 @@ let private getProjectsDestinationInfo rootProjectPath projectTemplates : List<P
         { ProjectName = project.OriginalProjectName
           SafeProjectName = project.SafeProjectName
           DestinationDirectory = destinationDirectory
-          DestinationSolutionDirectory = project.SolutionFolderDestinationPath |> RelativePath.value }
+          DestinationSolutionDirectory = project.SolutionFolderDestinationPath |> RelativePath.value
+          ProjectFileExtension = originalProjFilePath |> FileInfo |> fun f -> f.Extension }
         
     projectTemplates
     |> List.map toProjectDestinationInfoDto
