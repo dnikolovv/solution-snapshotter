@@ -22,7 +22,7 @@ The input is the [source folder](https://github.com/dnikolovv/devadventures-net-
 
 ## what this project does in pictures
 
-with your project setup ready
+given a project setup that you've put together
 
 ![1](example-pictures/step1.PNG)
 
