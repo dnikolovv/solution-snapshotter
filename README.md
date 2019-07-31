@@ -37,11 +37,11 @@ and get a generated VSIX project
 
 ![5](example-pictures/step5.PNG)
 
-you can build it (or your CI agent can)
+you can build it (or your CI agent)
 
 ![6](example-pictures/step6.PNG)
 
-and install to Visual Studio or ship to the VS Marketplace
+and install it to Visual Studio or ship to the VS Marketplace
 
 ![7](example-pictures/step7.PNG)
 ![8](example-pictures/step8.PNG)
