@@ -28,40 +28,40 @@ with your project setup ready
 
 call `solution-snapshotter`
 
-![2](example-pictures\step2.png)
-![3](example-pictures\step3.png)
+![2](example-pictures/step2.PNG)
+![3](example-pictures/step3.PNG)
 
 and get a generated VSIX project
 
-![4](example-pictures\step4.png)
+![4](example-pictures/step4.PNG)
 
-![5](example-pictures\step5.png)
+![5](example-pictures/step5.PNG)
 
 you can build it (or your CI agent can)
 
-![6](example-pictures\step6.png)
+![6](example-pictures/step6.PNG)
 
 and install to Visual Studio or ship to the VS Marketplace
 
-![7](example-pictures\step7.png)
-![8](example-pictures\step8.png)
+![7](example-pictures/step7.PNG)
+![8](example-pictures/step8.PNG)
 
 after installing, your template will be available in Visual Studio under the name you've given it
 
-![9](example-pictures\step9.png)
-![10](example-pictures\step10.png)
+![9](example-pictures/step9.PNG)
+![10](example-pictures/step10.PNG)
 
 the projects you create will have the same physical and solution structure as your initial "source"
 
-![11](example-pictures\step11.png)
+![11](example-pictures/step11.PNG)
 
 with any extra folders and files included (these could also be docker compose configuration files, for example)
 
-![12](example-pictures\step12.png)
+![12](example-pictures/step12.PNG)
 
 and all references being valid (given that your source project was in a good state)
 
-![13](example-pictures\step13.png)
+![13](example-pictures/step13.PNG)
 
 ## why?
 
