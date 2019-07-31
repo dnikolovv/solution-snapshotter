@@ -10,16 +10,6 @@ In the context of this project, a snapshot means an exported Visual Studio templ
 
 If you have your setup ready ([like this, for example](https://github.com/dnikolovv/devadventures-net-core-template/tree/master/source)), you can use this tool to export a ready-to-install Visual Studio extension instantly. The generated extension will contain a template that will initialize your project as you imported it.
 
-## example usage
-
-The [Dev Adventures .NET Core project setup](https://marketplace.visualstudio.com/items?itemName=dnikolovv.dev-adventures-project-setup&ssr=false#overview) is generated using this tool.
-
-The input is the [source folder](https://github.com/dnikolovv/devadventures-net-core-template/tree/master/source) and the output is this:
-
-![https://devadventures.net/wp-content/uploads/2018/06/template-in-vs.png](https://devadventures.net/wp-content/uploads/2018/06/template-in-vs.png)
-
-> [Click to check it out on the VS marketplace.](https://marketplace.visualstudio.com/items?itemName=dnikolovv.dev-adventures-project-setup)
-
 ## what this project does in pictures
 
 given a project setup that you've put together
@@ -62,6 +52,16 @@ with any extra folders and files included (these could also be docker compose co
 and all references being valid (given that your source project was in a good state)
 
 ![13](example-pictures/step13.PNG)
+
+## example usage
+
+The [Dev Adventures .NET Core project setup](https://marketplace.visualstudio.com/items?itemName=dnikolovv.dev-adventures-project-setup&ssr=false#overview) is generated using this tool.
+
+The input is the [source folder](https://github.com/dnikolovv/devadventures-net-core-template/tree/master/source) and the output is this:
+
+![https://devadventures.net/wp-content/uploads/2018/06/template-in-vs.png](https://devadventures.net/wp-content/uploads/2018/06/template-in-vs.png)
+
+> [Click to check it out on the VS marketplace.](https://marketplace.visualstudio.com/items?itemName=dnikolovv.dev-adventures-project-setup)
 
 ## why?
 
