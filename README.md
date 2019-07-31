@@ -39,7 +39,7 @@ and get a generated VSIX project
 
 you can build it (or your CI agent)
 
-![6](example-pictures/step6.PNG)
+![6](example-pictures/step6.png)
 
 and install it to Visual Studio or ship to the VS Marketplace
 
