@@ -10,7 +10,7 @@ In the context of this project, a snapshot means an exported Visual Studio templ
 
 If you have your setup ready ([like this, for example](https://github.com/dnikolovv/devadventures-net-core-template/tree/master/source)), you can use this tool to export a ready-to-install Visual Studio extension instantly. The generated extension will contain a template that will initialize your project as you imported it.
 
-## example
+## example usage
 
 The [Dev Adventures .NET Core project setup](https://marketplace.visualstudio.com/items?itemName=dnikolovv.dev-adventures-project-setup&ssr=false#overview) is generated using this tool.
 
@@ -20,6 +20,48 @@ The input is the [source folder](https://github.com/dnikolovv/devadventures-net-
 
 > [Click to check it out on the VS marketplace.](https://marketplace.visualstudio.com/items?itemName=dnikolovv.dev-adventures-project-setup)
 
+## what this project does in pictures
+
+with your project setup ready
+
+![1](example-pictures\step1.png)
+
+call `solution-snapshotter`
+
+![2](example-pictures\step2.png)
+![3](example-pictures\step3.png)
+
+and get a generated VSIX project
+
+![4](example-pictures\step4.png)
+
+![5](example-pictures\step5.png)
+
+you can build it (or your CI agent can)
+
+![6](example-pictures\step6.png)
+
+and install to Visual Studio or ship to the VS Marketplace
+
+![7](example-pictures\step7.png)
+![8](example-pictures\step8.png)
+
+after installing, your template will be available in Visual Studio under the name you've given it
+
+![9](example-pictures\step9.png)
+![10](example-pictures\step10.png)
+
+the projects you create will have the same physical and solution structure as your initial "source"
+
+![11](example-pictures\step11.png)
+
+with any extra folders and files included (these could also be docker compose configuration files, for example)
+
+![12](example-pictures\step12.png)
+
+and all references being valid (given that your source project was in a good state)
+
+![13](example-pictures\step13.png)
 
 ## why?
 
@@ -69,7 +111,7 @@ Well, forget about it because **multi-project templates do not support custom ph
 ├───MyProject.Business.Tests
 ```
 
-Of course, there's a workaround. If you want a custom physical structure, you can plug in during the template creation using the [IWizard](https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.templatewizard.iwizard?view=visualstudiosdk-2017) interface and his friendly cousins [_Solution](https://docs.microsoft.com/en-us/dotnet/api/envdte._solution?view=visualstudiosdk-2017), [Solution2](https://docs.microsoft.com/en-us/dotnet/api/envdte80.solution2?view=visualstudiosdk-2017), [Solution3](https://docs.microsoft.com/en-us/dotnet/api/envdte90.solution3?view=visualstudiosdk-2017) and [Solution4](https://docs.microsoft.com/en-us/dotnet/api/envdte100.solution4?view=visualstudiosdk-2017)! F*ck you, naming conventions!
+Of course, there's a workaround. If you want a custom physical structure, you can plug in during the template creation using the [IWizard](https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.templatewizard.iwizard?view=visualstudiosdk-2017) interface and his friendly cousins [\_Solution](https://docs.microsoft.com/en-us/dotnet/api/envdte._solution?view=visualstudiosdk-2017), [Solution2](https://docs.microsoft.com/en-us/dotnet/api/envdte80.solution2?view=visualstudiosdk-2017), [Solution3](https://docs.microsoft.com/en-us/dotnet/api/envdte90.solution3?view=visualstudiosdk-2017) and [Solution4](https://docs.microsoft.com/en-us/dotnet/api/envdte100.solution4?view=visualstudiosdk-2017)! F\*ck you, naming conventions!
 
 ### extra files? double oh no
 
