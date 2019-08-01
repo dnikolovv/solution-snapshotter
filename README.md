@@ -53,6 +53,47 @@ And all references being valid (given that your source project was in a good sta
 
 ![13](example-pictures/step13.PNG)
 
+## Assumption
+
+The tool makes one major assumption - your `.sln` file only references projects that are further down in the folder hierarchy.
+
+If it references project files in folders above in the hierarchy, don't expect it to work properly. Also, don't expect a proper template if you have your solution on the same level as the `.csproj` or `.fsproj` files.
+
+You may actually get a decent result, but these are not scenarios I've considered supporting.
+
+Example supported structures:
+
+```
+├───client (some JS app, for example)
+├───src
+|   ├───MyProject.Api
+|   ├───MyProject.Business
+|   ├───MyProject.Core
+|   ├───MyProject.Data
+└───MyProject.sln
+```
+
+```
+├───MyProject.Api
+├───MyProject.Business
+├───MyProject.Core
+├───MyProject.Data
+├───MyProject.sln
+```
+
+An example unsupported structure:
+
+```
+├───core
+|   └───MyProject.Core (referenced by MyProject.sln)
+├───project
+|   ├───MyProject.sln
+│   ├───MyProject.Api
+│   ├───MyProject.Business
+│   ├───MyProject.Core
+│   └───MyProject.Data
+```
+
 ## An example project that uses it
 
 The [Dev Adventures .NET Core project setup](https://marketplace.visualstudio.com/items?itemName=dnikolovv.dev-adventures-project-setup&ssr=false#overview) is generated using this tool.
