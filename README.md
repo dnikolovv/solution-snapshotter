@@ -4,128 +4,74 @@
 
 Take a snapshot of your current solution and instantly export it as a Visual Studio extension!
 
-## snapshot?
+## Snapshot?
 
 In the context of this project, a snapshot means an exported Visual Studio template that represents your current project's state.
 
 If you have your setup ready ([like this, for example](https://github.com/dnikolovv/devadventures-net-core-template/tree/master/source)), you can use this tool to export a ready-to-install Visual Studio extension instantly. The generated extension will contain a template that will initialize your project as you imported it.
 
-## what this project does in pictures
+## What this project does in pictures
 
-given a project setup that you've put together
+Given a project setup that you've put together:
 
 ![1](example-pictures/step1.PNG)
 
-call `solution-snapshotter`
+Call `solution-snapshotter.exe`:
 
 ![2](example-pictures/step2.PNG)
 ![3](example-pictures/step3.PNG)
 
-and get a generated VSIX project
+And receive a generated VSIX project:
 
 ![4](example-pictures/step4.PNG)
 
 ![5](example-pictures/step5.PNG)
 
-you can build it (or your CI agent)
+You can build it (or your CI agent):
 
 ![6](example-pictures/step6.png)
 
-and install it to Visual Studio or ship to the VS Marketplace
+And install it to Visual Studio (or ship it to the VS marketplace):
 
 ![7](example-pictures/step7.PNG)
 ![8](example-pictures/step8.PNG)
 
-after installing, your template will be available in Visual Studio under the name you've given it
+After installing, your template will be available in Visual Studio under the name you've given it:
 
 ![9](example-pictures/step9.PNG)
 ![10](example-pictures/step10.PNG)
 
-the projects you create will have the same physical and solution structure as your initial "source"
+The projects that you create will have the same physical and solution structure as your initial "source":
 
 ![11](example-pictures/step11.PNG)
 
-with any extra folders and files included (these could also be docker compose configuration files, for example)
+With any extra folders and files included (these could also be docker compose configuration files, for example):
 
 ![12](example-pictures/step12.PNG)
 
-and all references being valid (given that your source project was in a good state)
+And all references being valid (given that your source project was in a good state):
 
 ![13](example-pictures/step13.PNG)
 
-## example usage
+## An example project that uses it
 
 The [Dev Adventures .NET Core project setup](https://marketplace.visualstudio.com/items?itemName=dnikolovv.dev-adventures-project-setup&ssr=false#overview) is generated using this tool.
 
-The input is the [source folder](https://github.com/dnikolovv/devadventures-net-core-template/tree/master/source) and the output is this:
+The initial source is contained in [this GitHub repository](https://github.com/dnikolovv/devadventures-net-core-template/tree/master/source).
+
+On commits to `master`, the CI kicks in and uses `solution-snapshotter` to generate a `.vsix` file that is then automatically published to the VS Marketplace. You can see the extension page [here](https://marketplace.visualstudio.com/items?itemName=dnikolovv.dev-adventures-project-setup).
 
 ![https://devadventures.net/wp-content/uploads/2018/06/template-in-vs.png](https://devadventures.net/wp-content/uploads/2018/06/template-in-vs.png)
 
-> [Click to check it out on the VS marketplace.](https://marketplace.visualstudio.com/items?itemName=dnikolovv.dev-adventures-project-setup)
+## What you could use it for
 
-## why?
+If you work for a service company, use this tool to create and maintain standard templates for different project types.
 
-Have you ever found yourself setting up the same structure, with the same stack, over and over again? I know I have.
+If you're doing microservices, use it to create common templates for services or shared libraries.
 
-Yes, you can create a Visual Studio template and have your structure built-in. However, if you attempt to do that yourself, you'll quickly find out that it is **way** more complicated than it should be.
+Basically, every time you think a template would be handy.
 
-### multi-project templates are not trivial
-
-There's a built-in `Export Template` functionality inside Visual Studio. Sadly, it only works for solutions that contain a single project or projects inside a solution that don't reference anything else. Otherwise, the exported template will not compile due to broken references.
-
-Most often you'll have multiple assemblies in your setup. Combining those into a single template means you'll be following [long tutorials](https://mentormate.com/blog/process-improvement-tools-create-multilayered-project-visual-studio-ide-seconds/) and getting intimately familiar with the [multi-project vstemplate format](https://docs.microsoft.com/en-us/visualstudio/ide/how-to-create-multi-project-templates?view=vs-2019#).
-
-### distributing your template is also not trivial
-
-After you've successfully built your template, you'll quickly find out that distributing it is a pain. It's a `.zip` file that you have to copy into a very specific Visual Studio folder. If you want to be able to ship your setup as a Visual Studio extension, you'll have to spare a couple more hours setting up stuff.
-
-### maintenance is a nightmare
-
-Whether you chose the `.zip` or the Visual Studio extension path, maintenance is the same.
-
-When you export a project as a template, it's no longer something that you can compile and run. Any changes you want to make mean that you'll be digging inside plain text files (or full of compile-time error files). If you want to test your changes, you'll have to start up a Visual Studio instance and run your extension inside it. Great if you want to spend 30 minutes updating a NuGet package version and a few variable names.
-
-### physical folders? oh no
-
-When setting up a new project, you probably use a clean and tidy physical folder structure. Perhaps something like this?
-
-```
-├───src
-│   ├───MyProject.Api
-│   ├───MyProject.Business
-│   ├───MyProject.Core
-│   ├───MyProject.Data
-│   └───MyProject.Data.EntityFramework
-└───tests
-    └───MyProject.Business.Tests
-```
-
-Well, forget about it because **multi-project templates do not support custom physical folder structures**. Whether you want it or not, your project structure will look like this:
-
-```
-├───MyProject.Api
-├───MyProject.Business
-├───MyProject.Core
-├───MyProject.Data
-├───MyProject.Data.EntityFramework
-├───MyProject.Business.Tests
-```
-
-Of course, there's a workaround. If you want a custom physical structure, you can plug in during the template creation using the [IWizard](https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.templatewizard.iwizard?view=visualstudiosdk-2017) interface and his friendly cousins [\_Solution](https://docs.microsoft.com/en-us/dotnet/api/envdte._solution?view=visualstudiosdk-2017), [Solution2](https://docs.microsoft.com/en-us/dotnet/api/envdte80.solution2?view=visualstudiosdk-2017), [Solution3](https://docs.microsoft.com/en-us/dotnet/api/envdte90.solution3?view=visualstudiosdk-2017) and [Solution4](https://docs.microsoft.com/en-us/dotnet/api/envdte100.solution4?view=visualstudiosdk-2017)! F\*ck you, naming conventions!
-
-### extra files? double oh no
-
-Besides a tidy folder structure, you most likely have some extra files that are not included in your .NET projects. For example, I like to have a `configuration` folder that contains some shared configuration files ([like that one](https://github.com/dnikolovv/devadventures-net-core-template/tree/master/source/src/configuration)).
-
-How do you include such a folder in your multi-project template?
-
-You can't.
-
-There's no built-in mechanism to do that. If you want to have extra files, you need to include them into the VSIX installer and extract them during the template creation using custom logic placed inside the [IWizard](https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.templatewizard.iwizard?view=visualstudiosdk-2017) interface.
-
-Don't squander your time with all this nonsense. Let `solution-snapshotter` do the heavy lifting.
-
-## usage
+## Usage
 
 `solution-snapshotter` supports two ways of providing arguments - inline or through a config file.
 
@@ -212,7 +158,7 @@ OPTIONS:
     --help                display this list of options.
 ```
 
-When supplying a `.config` file, use the same arguments, but instead of dashes, use spaces for the key values.
+When supplying a `.config` file, use the same argument names, but instead of dashes, use spaces for the key values.
 
 Example:
 
@@ -254,3 +200,11 @@ Example:
 Successfully converted <YourProject>.sln to a template!
 You'll find the zipped template at 'C:\some-path\Template.zip' and VSIX project at 'C:\some-path\SomeRandomWizard.csproj'.
 ```
+
+## Contributing
+
+Contributions are welcome. Also, don't hesitate to [open an issue](https://github.com/dnikolovv/solution-snapshotter/issues) if there's anything you think could be improved.
+
+## License
+
+This project is licensed under the MIT License.
