@@ -21,7 +21,7 @@ Call `solution-snapshotter.exe`:
 ![2](example-pictures/step2.PNG)
 ![3](example-pictures/step3.PNG)
 
-And receive a generated VSIX project:
+And receive a generated Visual Studio extension (VSIX) project:
 
 ![4](example-pictures/step4.PNG)
 
