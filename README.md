@@ -201,66 +201,6 @@ Successfully converted <YourProject>.sln to a template!
 You'll find the zipped template at 'C:\some-path\Template.zip' and VSIX project at 'C:\some-path\SomeRandomWizard.csproj'.
 ```
 
-## Motivation
-
-Have you ever found yourself setting up the same structure, with the same stack, over and over again? I know I have.
-
-Yes, you can create a Visual Studio template and have your structure built-in. However, if you attempt to do that yourself, you'll quickly find out that it is **way** more complicated than it should be.
-
-### Multi-project templates are not trivial
-
-There's a built-in `Export Template` functionality inside Visual Studio. Sadly, it only works for solutions that contain a single project or projects inside a solution that don't reference anything else. Otherwise, the exported template will not compile due to broken references.
-
-Most often you'll have multiple assemblies in your setup. Combining those into a single template means you'll be following [long tutorials](https://mentormate.com/blog/process-improvement-tools-create-multilayered-project-visual-studio-ide-seconds/) and getting intimately familiar with the [multi-project vstemplate format](https://docs.microsoft.com/en-us/visualstudio/ide/how-to-create-multi-project-templates?view=vs-2019#).
-
-### Distributing your template is also not trivial
-
-After you've successfully built your template, you'll quickly find out that distributing it is a pain. It's a `.zip` file that you have to copy into a very specific Visual Studio folder. If you want to be able to ship your setup as a Visual Studio extension, you'll have to spare a couple more hours setting up stuff.
-
-### Maintenance is a nightmare
-
-Whether you chose the `.zip` or the Visual Studio extension path, maintenance is the same.
-
-When you export a project as a template, it's no longer something that you can compile and run. Any changes you want to make mean that you'll be digging inside plain text files (or full of compile-time error files). If you want to test your changes, you'll have to start up a Visual Studio instance and run your extension inside it. Great if you want to spend 30 minutes updating a NuGet package version and a few variable names.
-
-### No support for physical folder structures other than the default
-
-When setting up a new project, you probably use a clean and tidy physical folder structure. Perhaps something like this?
-
-```
-├───src
-│   ├───MyProject.Api
-│   ├───MyProject.Business
-│   ├───MyProject.Core
-│   ├───MyProject.Data
-│   └───MyProject.Data.EntityFramework
-└───tests
-   └───MyProject.Business.Tests
-```
-
-Well, forget about it because **multi-project templates do not support custom physical folder structures**. Whether you want it or not, your project structure will look like this:
-
-```
-├───MyProject.Api
-├───MyProject.Business
-├───MyProject.Core
-├───MyProject.Data
-├───MyProject.Data.EntityFramework
-├───MyProject.Business.Tests
-```
-
-Of course, there's a workaround. If you want a custom physical structure, you can plug in during the template creation using the [IWizard](https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.templatewizard.iwizard?view=visualstudiosdk-2017) interface and his friendly cousins [\_Solution](https://docs.microsoft.com/en-us/dotnet/api/envdte._solution?view=visualstudiosdk-2017), [Solution2](https://docs.microsoft.com/en-us/dotnet/api/envdte80.solution2?view=visualstudiosdk-2017), [Solution3](https://docs.microsoft.com/en-us/dotnet/api/envdte90.solution3?view=visualstudiosdk-2017) and [Solution4](https://docs.microsoft.com/en-us/dotnet/api/envdte100.solution4?view=visualstudiosdk-2017). So long, naming conventions!
-
-### No support for extra files
-
-Besides a tidy folder structure, you most likely have some extra files that are not included in your .NET projects. For example, I like to have a `configuration` folder that contains some shared configuration files ([like that one](https://github.com/dnikolovv/devadventures-net-core-template/tree/master/source/src/configuration)).
-
-How do you include such a folder in your multi-project template?
-
-At the time of writing, you can't.
-
-There's no built-in mechanism to do that. If you want to have extra files, you need to include them into the VSIX installer and extract them during the template creation using custom logic placed inside the [IWizard](https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.templatewizard.iwizard?view=visualstudiosdk-2017) interface.
-
 ## Contributing
 
 Contributions are welcome. Also, don't hesitate to [open an issue](https://github.com/dnikolovv/solution-snapshotter/issues) if there's anything you think could be improved.
