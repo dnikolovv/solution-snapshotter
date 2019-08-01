@@ -12,15 +12,15 @@ type ProjectTemplateLink =
     { VsTemplatePath: string
       SafeProjectName: string
       OriginalProjectName: string
-      OriginalCsprojPath: string }
+      OriginalProjFilePath: string }
 
 type ProjectInfo =
-    { Csproj: ExistingFile
+    { ProjectFile: ExistingFile
       SolutionDestinationPath: RelativePath }
 
 type ProjectTemplateInfo =
     { VsTemplatePath: ExistingFilePath
-      OriginalCsprojPath: ExistingFilePath
+      OriginalProjFilePath: ExistingFilePath
       OriginalProjectName: string
       SafeProjectName: string
       RootNamespace: string
@@ -85,6 +85,7 @@ type StructureConfiguration =
 type ProjectDestinationInfoDto =
     { SafeProjectName: string 
       ProjectName: string
+      ProjectFileExtension: string
       DestinationDirectory: string
       DestinationSolutionDirectory: string }
 
@@ -94,7 +95,7 @@ type StructureConfigurationDto =
       SolutionFolderStructure: SolutionFolderStructure }
 
 type SingleProjectTemplateArgs =
-    { CsprojPath: ExistingFilePath
+    { ProjFilePath: ExistingFilePath
       PhysicalDestination: ExistingDirPath
       RootProjectNamespace: string
       FoldersToIgnore: List<string>

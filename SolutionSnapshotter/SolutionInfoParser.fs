@@ -4,14 +4,10 @@ open System.IO
 open System.Collections.Generic
 open Utils
 open Microsoft.Build.Construction
-open Types
 open UtilTypes
+open Types
 
-let private toProjectInfo (solution:SolutionFile) (csproj:FileInfo) : ProjectInfo =
-    let getProjectId csprojFullPath =
-        (solution.ProjectsInOrder
-        |> Seq.find (fun p -> p.AbsolutePath = csprojFullPath)).ProjectGuid
-
+let private toProjectInfo (solution:SolutionFile) (projectId, projectFile) : ProjectInfo =
     let getByGuid projectGuid =
         if projectGuid = null
             then null
@@ -38,29 +34,26 @@ let private toProjectInfo (solution:SolutionFile) (csproj:FileInfo) : ProjectInf
 
         parentNames
         |> String.concat "\\"
-        
-    let projectId = getProjectId csproj.FullName
+
     let solutionDestinationPath = getSolutionDestinationPath projectId
         
-    { Csproj = ExistingFile.create csproj
-      SolutionDestinationPath = Path.createRelative solutionDestinationPath }
+    { ProjectFile = projectFile
+      SolutionDestinationPath = RelativePath.create solutionDestinationPath }
 
 /// <summary>
 /// Retrieves information about projects inside a .sln file.
-/// Works under the assumption that the solution will not reference projects
-/// in folders higher in the folder hierarchy.
-/// Only includes projects for which there is a .csproj file.
 /// Does not include solution folders.
 /// </summary>
 let parseProjectInfo pathToSln = 
     let pathToSln = pathToSln |> ExistingFilePath.value
 
-    let rootProjectPath = Path.GetDirectoryName(pathToSln)
     let solution = SolutionFile.Parse(pathToSln)
 
-    // TODO: Maybe we can get those csproj files from the parsed .sln
-    let csprojFiles = scanForFiles rootProjectPath "*.csproj"
+    let projectFiles =
+        solution.ProjectsInOrder
+        |> Seq.filter (fun p -> p.ProjectType <> SolutionProjectType.SolutionFolder)
+        |> Seq.map (fun p -> (p.ProjectGuid, p.AbsolutePath |> FileInfo |> ExistingFile.wrap))
 
-    csprojFiles
+    projectFiles
     |> Seq.map (toProjectInfo solution)
     |> List.ofSeq

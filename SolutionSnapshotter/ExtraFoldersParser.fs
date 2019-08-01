@@ -22,7 +22,7 @@ let findAndCopyExtraFolders rootProjectPath destination (foldersToIgnore:string 
     
     let destination = destination |> ExistingDirPath.value
 
-    scanForDirectoriesThatDoNotContain rootProjectPath "*.csproj" foldersToIgnore
+    scanForDirectoriesThatDoNotContain rootProjectPath ["*.*sproj"] foldersToIgnore
     |> Seq.filter (fun d -> not <| shouldIgnoreExtraFolder d fileExtensionsToIgnore)
     |> Seq.map (fun d ->
         // To avoid name collisions (e.g. multiple "configuration" folders throughout the structure)

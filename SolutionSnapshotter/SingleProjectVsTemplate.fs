@@ -25,11 +25,11 @@ let private initialRootTemplate =
 </TemplateContent>
 </VSTemplate>" rootXmlNamespace
 
-let private setProjectRootNode csprojFileName document=
+let private setProjectRootNode projFileName document=
     let projectRootNode =
         createNode document "Project" "" rootXmlNamespace [
-            ("TargetFileName", csprojFileName);
-            ("File", csprojFileName);
+            ("TargetFileName", projFileName);
+            ("File", projFileName);
             ("ReplaceParameters", "true") ]
     
     let templateContentNode = document.ChildNodes |> findNode "TemplateContent" |> Option.defaultValue null
@@ -79,13 +79,13 @@ let private setProjectItemNodes (rootProjectFiles:string list) (folderHierarchie
 /// Generates a single-project .vstemplate contents.
 /// Does not write it to disk.
 /// </summary>
-let getTemplate rootProjectFiles folderHierarchies csprojFileName =
+let getTemplate rootProjectFiles folderHierarchies projFileName =
     
     let xmlDocument = toXmlDocument initialRootTemplate
 
     let documentXml =
         xmlDocument
-        |> setProjectRootNode csprojFileName
+        |> setProjectRootNode projFileName
         |> setProjectItemNodes rootProjectFiles folderHierarchies xmlDocument
         |> fun x -> x.OuterXml
     

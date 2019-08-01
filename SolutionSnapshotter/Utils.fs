@@ -92,13 +92,16 @@ module Directories =
 
         buildHierarchiesFromDirs ([directory] @ subDirectories)
 
-    let scanForFiles rootPath pattern =
+    let scanForFiles rootPath (patterns:string list) =
         if (not <| Directory.Exists rootPath) then
             raise (new InvalidOperationException "Tried to scan an invalid directory.")
 
         let directory = DirectoryInfo rootPath
 
-        directory.EnumerateFiles(pattern, SearchOption.AllDirectories)
+        patterns
+        |> List.collect (fun pattern ->
+            directory.EnumerateFiles(pattern, SearchOption.AllDirectories)
+            |> List.ofSeq)
 
     let moveFolderContents (targetPath:ExistingDirPath) (source:ExistingDirPath) =
         let source = source |> ExistingDirPath.value
@@ -122,14 +125,18 @@ module Directories =
     /// The bottom is a folder that contains a file with the specified pattern.
     /// Also scans the root folder you give it.
     /// </summary>
-    let scanForDirectoriesThatDoNotContain rootPath pattern foldersToIgnore =
+    let scanForDirectoriesThatDoNotContain rootPath patterns foldersToIgnore =
         if not <| Directory.Exists(rootPath) then
             raise (new InvalidOperationException "Tried to scan an invalid directory.")
 
         let directoriesToIgnore =
-            scanForFiles rootPath pattern
+            scanForFiles rootPath patterns
             |> Seq.map (fun f -> f.DirectoryName)
             |> List.ofSeq
+
+        if directoriesToIgnore |> List.contains rootPath then
+            []
+        else
 
         let rootDirectoryInfo = DirectoryInfo rootPath
 
@@ -138,21 +145,28 @@ module Directories =
             |> List.ofSeq
 
         (rootDirectoryInfo :: subdirectories)
-        |> Seq.filter (fun d ->
+        |> Seq.filter (fun directory ->
             // First we filter by the directory itself
-            if shouldBeIgnored foldersToIgnore d then
+            if shouldBeIgnored foldersToIgnore directory then
                 false
             else
                 // Then we check whether its parent hierarchy contains a folder that should be ignored
-                let parentHierarchy = getDirectoryParentHierarchy d (Some rootPath)
+                let parentHierarchy = getDirectoryParentHierarchy directory (Some rootPath)
 
                 let isOneOfIgnored =
                     parentHierarchy
                     |> List.exists (fun x -> directoriesToIgnore.Contains(x.FullName))
 
+                let containsUnwantedFiles (dir:DirectoryInfo) =
+                    patterns
+                    |> Seq.collect (fun p ->
+                        dir.GetFiles(p))
+                    |> Seq.isEmpty
+                    |> not
+
                 let shouldBeSelected =
                     not <| isOneOfIgnored &&
-                    d.GetFiles(pattern).Length = 0
+                    not <| containsUnwantedFiles directory
 
                 shouldBeSelected
         )
