@@ -1,4 +1,4 @@
-﻿namespace UtilTypes
+﻿module UtilTypes
 
 open System
 open System.IO
@@ -6,8 +6,6 @@ open System.IO
 type ExistingDirPath = private ExistingDirPath of string
 
 type ExistingDir = private ExistingDir of DirectoryInfo
-
-type UnexistingPath = private UnexistingPath of string
 
 type ExistingFilePath = private ExistingFilePath of string
 
@@ -124,30 +122,3 @@ module RelativePath =
     let isRoot (RelativePath path) = path.Length = 0
 
     let value (RelativePath path) = path
-
-[<RequireQualifiedAccess>]
-module Path =
-    
-    let createExisting str =
-        if not <| Directory.Exists(str) then
-            raise (new ArgumentException (sprintf "%s should've been a valid path, but wasn't." str))
-        else
-            ExistingDirPath str
-
-    let createUnexisting str = 
-        if Directory.Exists(str) then
-            raise (new ArgumentException (sprintf "%s should've been an unexisting path, but wasn't." str))
-        else
-            UnexistingPath str
-
-    let asExistingFilePath str =
-        if not <| File.Exists(str) then
-            raise (new ArgumentException (sprintf "%s should've been an existing file, but wasn't." str))
-        else
-            ExistingFilePath str
-
-    let createRelative (str:string) =
-        if Path.IsPathRooted str then
-            raise (new ArgumentException (sprintf "%s should've been a relative path, but wasn't." str))
-        else
-            RelativePath str

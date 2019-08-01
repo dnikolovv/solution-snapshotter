@@ -134,6 +134,10 @@ module Directories =
             |> Seq.map (fun f -> f.DirectoryName)
             |> List.ofSeq
 
+        if directoriesToIgnore |> List.contains rootPath then
+            []
+        else
+
         let rootDirectoryInfo = DirectoryInfo rootPath
 
         let subdirectories =

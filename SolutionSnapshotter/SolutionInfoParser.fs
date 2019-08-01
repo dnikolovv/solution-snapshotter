@@ -4,8 +4,8 @@ open System.IO
 open System.Collections.Generic
 open Utils
 open Microsoft.Build.Construction
-open Types
 open UtilTypes
+open Types
 
 let private toProjectInfo (solution:SolutionFile) (projectId, projectFile) : ProjectInfo =
     let getByGuid projectGuid =
@@ -38,7 +38,7 @@ let private toProjectInfo (solution:SolutionFile) (projectId, projectFile) : Pro
     let solutionDestinationPath = getSolutionDestinationPath projectId
         
     { ProjectFile = projectFile
-      SolutionDestinationPath = Path.createRelative solutionDestinationPath }
+      SolutionDestinationPath = RelativePath.create solutionDestinationPath }
 
 /// <summary>
 /// Retrieves information about projects inside a .sln file.
