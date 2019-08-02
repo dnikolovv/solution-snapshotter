@@ -1,4 +1,6 @@
-﻿open System.IO
+﻿module Program
+
+open System.IO
 open Argu
 open CLI
 open Utils
