@@ -238,8 +238,8 @@ module String =
     /// <summary>
     /// Trims a given char off the end of a string.
     /// </summary>
-    let trimEnd (char:char) (string:string) =
-        string.TrimEnd(char)
+    let trimEnd (chars:char list) (string:string) =
+        string.TrimEnd(chars |> List.toArray)
 
     /// <summary>
     /// Trims a given char off the start of a string.

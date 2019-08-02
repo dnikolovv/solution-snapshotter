@@ -5,6 +5,7 @@ open Utils
 open System.IO
 open Microsoft.Build.Construction
 open UtilTypes
+open System
 
 let rec private buildNodeFromFolder (folder:ProjectInSolution) (allFolders:List<ProjectInSolution>) pathUntilNow =
     let node =
@@ -42,24 +43,34 @@ let private parseSolutionFolderStructure (solution:SolutionFile) : SolutionFolde
 
 let private getProjectsDestinationInfo rootProjectPath projectTemplates : List<ProjectDestinationInfoDto> =
     let toProjectDestinationInfoDto (project:ProjectTemplateInfo) =
-        // It is assumed that the project name matches the .*sproj name
-        // E.g. MyProject.Business.csproj matches the MyProject.Business project
-        // which is located inside the MyProject.Business folder
-        let originalProjFilePath = project.OriginalProjFilePath |> ExistingFilePath.value
+        let trimSlashes str =
+            str
+            |> trimEnd ['\\'; '/']
+
+        let originalProjFilePath =
+            project.OriginalProjFilePath
+            |> ExistingFilePath.value
+            |> fun p -> Uri(p, UriKind.Absolute)
+
+        let rootProjectPath =
+            rootProjectPath
+            |> trimSlashes
+            // It must end with \ in order for MakeRelativeUri to work properly
+            |> fun s -> s + "\\"
+            |> fun p -> Uri(p, UriKind.Absolute)
 
         let destinationDirectory =
-            originalProjFilePath
-            |> cutStart rootProjectPath
-            |> cutEnd (Path.GetFileName(originalProjFilePath))
-            |> trimEnd '\\'
+            rootProjectPath.MakeRelativeUri(originalProjFilePath).ToString()
+            |> cutEnd (Path.GetFileName(originalProjFilePath.ToString()))
+            |> trimSlashes
             |> cutEnd project.OriginalProjectName
-            |> trimEnd '\\'
+            |> trimSlashes
 
         { ProjectName = project.OriginalProjectName
           SafeProjectName = project.SafeProjectName
           DestinationDirectory = destinationDirectory
           DestinationSolutionDirectory = project.SolutionFolderDestinationPath |> RelativePath.value
-          ProjectFileExtension = originalProjFilePath |> FileInfo |> fun f -> f.Extension }
+          ProjectFileExtension = originalProjFilePath.AbsolutePath |> FileInfo |> fun f -> f.Extension }
         
     projectTemplates
     |> List.map toProjectDestinationInfoDto

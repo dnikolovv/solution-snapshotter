@@ -63,12 +63,6 @@ type ExtraFolderMapping =
     { FolderPath: string
       ContentPath: string }
 
-type ProjectDestinationInfo =
-    { SafeProjectName: string 
-      ProjectName: string
-      DestinationDirectory: string
-      DestinationSolutionDirectory: RelativePath }
-
 type SolutionFolderNode =
     { FullPath: string
       Name: string
@@ -76,11 +70,6 @@ type SolutionFolderNode =
 
 type SolutionFolderStructure =
     { Nodes: List<SolutionFolderNode> }
-
-type StructureConfiguration =
-    { ProjectDestinationInfo: List<ProjectDestinationInfo>
-      ExtraFolders: List<ExtraFolderMapping> 
-      SolutionFolderStructure: SolutionFolderStructure }
 
 type ProjectDestinationInfoDto =
     { SafeProjectName: string 
