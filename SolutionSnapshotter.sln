@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SolutionSnapshotter", "SolutionSnapshotter\SolutionSnapshotter.fsproj", "{AAD44F44-8BF7-4F02-8AC9-E55EB5AFB47C}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "SolutionSnapshotter", "src\SolutionSnapshotter.fsproj", "{AAD44F44-8BF7-4F02-8AC9-E55EB5AFB47C}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "SolutionSnapshotter.Tests", "tests\SolutionSnapshotter.Tests.fsproj", "{580842E4-2DB8-4165-98AA-5A2451F0DDDE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{AAD44F44-8BF7-4F02-8AC9-E55EB5AFB47C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AAD44F44-8BF7-4F02-8AC9-E55EB5AFB47C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AAD44F44-8BF7-4F02-8AC9-E55EB5AFB47C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{580842E4-2DB8-4165-98AA-5A2451F0DDDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{580842E4-2DB8-4165-98AA-5A2451F0DDDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{580842E4-2DB8-4165-98AA-5A2451F0DDDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{580842E4-2DB8-4165-98AA-5A2451F0DDDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
