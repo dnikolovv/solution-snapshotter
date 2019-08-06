@@ -37,6 +37,10 @@ let private replaceNamespacesAndUsingsInFile rootProjectNamespace (file:FileInfo
 let rec private replaceNamespacesAndUsingsInNode rootProjectNamespace node =
     let replacedFiles =
         node.Files
+        // TODO: Some more thought needs to be put into this
+        // We don't want to be replacing phrases in *every* file because
+        // we could accidently corrupt something
+        |> List.filter (fun f -> f.Extension <> ".dll" && f.Extension <> ".zip")
         |> List.map (replaceNamespacesAndUsingsInFile rootProjectNamespace)
 
     let replacedFolders =
@@ -48,7 +52,8 @@ let rec private replaceNamespacesAndUsingsInNode rootProjectNamespace node =
         ChildFolders = replacedFolders }
 
 let private replaceNamespacesAndUsingsInHierarchy nodes rootProjectNamespace =
-    List.ofSeq nodes
+    nodes
+    |> List.ofSeq
     |> List.map (replaceNamespacesAndUsingsInNode rootProjectNamespace)
 
 let private generateTemplateXml (templateXmlBuilder: string -> SingleProjectVsTemplate) projFilePath (destination:ExistingDirPath) rootProjectNamespace solutionFolderDestination =

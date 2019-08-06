@@ -1,0 +1,18 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+pool:
+  vmImage: "windows-2019"
+
+steps:
+  # MSBuild
+  # Build with MSBuild
+  - task: MSBuild@1
+    inputs:
+      solution: "SolutionSnapshotter.sln"
+      configuration: Release
+      restoreNugetPackages: true
+      msbuildVersion: "latest"
+    displayName: "Build"

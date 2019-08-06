@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SolutionSnapshotter": {
+      "commandName": "Project",
+      "commandLineArgs": "inline --template-name MyAmazingSetup --template-description \"It's truly amazing.\" --path-to-sln \"MyProject.sln\" --root-project-namespace \"MyProject\" --folders-to-ignore [\"bin\",\".vs\"] --file-extensions-to-ignore [\".csproj.user\"] --vsix-display-name \"MyAmazingSetup Extension\" --vsix-description \"MyAmazingSetup's description\" --vsix-more-info \"https://moreinfo.net\" --vsix-getting-started \"https://gettingstarted.net\" --vsix-price-category free --vsix-qna-enable true --vsix-categories \"other templates\" --vsix-internal-name a-unique-internal-name --vsix-overview-md-path \"..\\overview.md\" --template-wizard-assembly \"MyAmazingSetupWizard\" --vsix-version 1.0 --vsix-publisher-full-name \"Dobromir Nikolov\" --vsix-publisher-username \"dnikolovv\""
+    }
+  }
+}
