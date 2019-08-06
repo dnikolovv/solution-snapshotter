@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/dnikolovv/solution-snapshotter.svg?branch=master)](https://travis-ci.org/dnikolovv/solution-snapshotter)
+[![Build Status](https://dev.azure.com/dnikolovv/solution-snapshotter/_apis/build/status/dnikolovv.solution-snapshotter?branchName=master)](https://dev.azure.com/dnikolovv/solution-snapshotter/_build/latest?definitionId=4&branchName=master)
 
 # solution-snapshotter
 
