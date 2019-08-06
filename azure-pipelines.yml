@@ -7,12 +7,21 @@ pool:
   vmImage: "windows-2019"
 
 steps:
-  # MSBuild
-  # Build with MSBuild
+  - task: NuGetToolInstaller@1
+    inputs:
+      versionSpec: 
+    displayName: "Install NuGet"
+
+  - task: NuGetCommand@2
+    inputs:
+      command: 'restore'
+      restoreSolution: 'SolutionSnapshotter.sln'
+      feedsToUse: 'select'
+    displayName: "Restore packages"
+
   - task: MSBuild@1
     inputs:
       solution: "SolutionSnapshotter.sln"
       configuration: Release
-      restoreNugetPackages: true
       msbuildVersion: "latest"
     displayName: "Build"
