@@ -8,13 +8,13 @@ script:
   - nuget restore SolutionSnapshotter.sln
   - msbuild SolutionSnapshotter.sln -p:Configuration=Release -p:OutputPath=artifacts
   - ls
-  - mono ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe SolutionSnapshotter/artifacts/SolutionSnapshotter.Tests.dll
+  - mono ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe src/SolutionSnapshotter/artifacts/SolutionSnapshotter.Tests.dll
 
 deploy:
   provider: releases
   skip_cleanup: true
   api_key: $GITHUB_TOKEN
-  file: SolutionSnapshotter/artifacts/solution-snapshotter.exe
+  file: src/SolutionSnapshotter/artifacts/solution-snapshotter.exe
   on:
     tags: true
 env:
