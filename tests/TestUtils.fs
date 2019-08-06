@@ -69,7 +69,14 @@ module Setup =
 
     // If we use the assembly's execution location the path becomes too long
     // But the OS's temp folder is in another drive in Azure Pipelines so :)
-    let getTempFolder = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), tempFolderName)
+    let getTempFolder =
+        let agentBuildDir = Environment.GetEnvironmentVariable("agentBuildDir")
+
+        if not <| String.IsNullOrEmpty(agentBuildDir) then
+            Path.Combine(agentBuildDir, tempFolderName)
+        else Path.Combine(
+                Path.GetTempPath(),
+                tempFolderName)
 
     let deleteIfExists dirName =
         if Directory.Exists dirName then
