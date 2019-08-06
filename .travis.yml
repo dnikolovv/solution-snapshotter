@@ -1,14 +1,12 @@
 os: windows
 language: csharp
 solution: SolutionSnapshotter.sln
-
-install:
-  - nuget install xunit.runners -Version 1.9.2 -OutputDirectory testrunner
+mono: none
 
 script:
   - nuget restore SolutionSnapshotter.sln
-  - msbuild SolutionSnapshotter.sln -p:Configuration=Release -p:OutputPath=artifacts
-  - mono ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe tests/artifacts/SolutionSnapshotter.Tests.dll
+  - msbuild.exe SolutionSnapshotter.sln -p:Configuration=Release -p:OutputPath=artifacts
+  - dotnet test tests/artifacts/SolutionSnapshotter.Tests.dll
 
 deploy:
   provider: releases
