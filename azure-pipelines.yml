@@ -6,17 +6,20 @@
 pool:
   vmImage: "windows-2019"
 
+variables:
+  agentBuildDir: $(System.DefaultWorkingDirectory)
+
 steps:
   - task: NuGetToolInstaller@1
     inputs:
-      versionSpec: 
+      versionSpec:
     displayName: "Install NuGet"
 
   - task: NuGetCommand@2
     inputs:
-      command: 'restore'
-      restoreSolution: 'SolutionSnapshotter.sln'
-      feedsToUse: 'select'
+      command: "restore"
+      restoreSolution: "SolutionSnapshotter.sln"
+      feedsToUse: "select"
     displayName: "Restore packages"
 
   - task: MSBuild@1
@@ -25,3 +28,20 @@ steps:
       configuration: Release
       msbuildVersion: "latest"
     displayName: "Build"
+
+  - task: VisualStudioTestPlatformInstaller@1
+    inputs:
+      packageFeedSelector: "nugetOrg"
+      versionSelector: "latestPreRelease"
+    displayName: "Install tests platform"
+
+  - task: VSTest@2
+    inputs:
+      testSelector: "testAssemblies"
+      testAssemblyVer2: |
+        **\*Tests.dll
+        **\*test*.dll
+        !**\*TestAdapter.dll
+        !**\obj\**
+      searchFolder: "$(System.DefaultWorkingDirectory)"
+    displayName: "Run tests"
