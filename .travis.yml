@@ -2,7 +2,7 @@ language: csharp
 solution: SolutionSnapshotter.sln
 
 install:
-  - nuget install xunit.runners -Version 1.9.2 -OutputDirectory testrunner
+  - nuget install xunit.runners -OutputDirectory testrunner
 
 script:
   - nuget restore SolutionSnapshotter.sln
