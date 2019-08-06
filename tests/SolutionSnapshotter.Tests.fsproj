@@ -13,7 +13,7 @@
   <ItemGroup>
     <Compile Include="TestUtils.fs" />
     <Compile Include="Attributes.fs" />
-    <Compile Include="Tests.fs" />
+    <Compile Include="DevAdventuresTests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 

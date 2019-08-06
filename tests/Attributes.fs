@@ -17,5 +17,6 @@ type UseTestSetupAttribute(projectSetupName:string, slnFileName:string) =
 
     override this.After(methodUnderTest:MethodInfo) =
         match extractedFolder with
-        | Some path -> Directory.Delete(path, true)
+        | Some path ->
+            Directory.Delete(Directory.GetParent(path).FullName, true)
         | None -> ()
