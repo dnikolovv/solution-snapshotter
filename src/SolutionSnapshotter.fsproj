@@ -11,7 +11,7 @@
     <Product>A solution template generator for .NET projects.</Product>
     <Copyright>Dobromir Nikolov (dnikolovv)</Copyright>
     <Description>Take a snapshot of your solution and instantly export it as a Visual Studio extension.</Description>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <RepositoryUrl>https://github.com/dnikolovv/solution-snapshotter</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://github.com/dnikolovv/solution-snapshotter</PackageProjectUrl>
