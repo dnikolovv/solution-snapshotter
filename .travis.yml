@@ -1,0 +1,15 @@
+language: csharp
+solution: SolutionSnapshotter.sln
+
+deploy:
+  provider: releases
+  script:
+    - msbuild SolutionSnapshotter.sln -p:Configuration=Release -p:OutputPath=artifacts
+  skip_cleanup: true
+  api_key: $GITHUB_TOKEN
+  file: SolutionSnapshotter/artifacts/solution-snapshotter.exe
+  on:
+    tags: true
+env:
+  global:
+    secure: LQbGAJiua1rC6LRHQVoVxYJhop1vq6TGFRQKI+UprFE7Dtb1VICsvrnfYa/VQAJ0Rk9ZOSDkQzSW/3YH4a2upNkvSanJCfB2QDhwdH8tpQPNVjJzoxmKKBuTm5nQaExA0R2a5U1jGKLEa8mq7ixRxpKxW2ZQqpOQ7ILGNMjaFCGMtfk1Ku8Hi4q0X208n3Qpg5U30m66/aTa9+BRyCzsE2xgwDMGG4Aeu22HTBuA/OXspto07EXAfvgJG/kE9kx7fftS4mVcHLubftzBKmkShhaihrRSIgOCqdboUn+pmWhKFYoxmbgUQv3lkwVrxalyVVNgt8O2Xaco48FP2dbiFBHofrHCg1LOZlKKVBpzKF7I6HiU7gIwiklkEJA2MqMYoPZ+fUD6yDNCT7+c/57Vmzb9JGU+4fcZ3Bri5SdFH5JhsRK2KWdvhJlGzYZiGPxCqUFU4aAP/XxwNKUoLsKH3IW81NjvG/cif0F+uwCMl0qLDeocwUPXcU66F3KJ/nNFgTLe+BrhRb7Kk3lcE1XYpL+Wa/7LQbG4Jezxcj+h3/nYKTnPxF2GQZPxCAfT7IbrkW70ytWQcM1EthgjaaWMSsePB3eyEqNdp5NrADwMmHfmzDUmXiSg5pOfGeNS+uWfeHmA3BkfvHI1VSb16PjpQaD16x1LGeCZsNuLOO9SSQg=
