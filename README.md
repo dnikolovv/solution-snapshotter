@@ -8,7 +8,17 @@ Take a snapshot of your current solution and instantly export it as a Visual Stu
 
 In the context of this project, a snapshot means an exported Visual Studio template that represents your current project's state.
 
-If you have your setup ready ([like this, for example](https://github.com/dnikolovv/devadventures-net-core-template/tree/master/source)), you can use this tool to export a ready-to-install Visual Studio extension instantly. The generated extension will contain a template that will initialize your project as you imported it.
+If you have your project setup ready ([like this, for example](https://github.com/dnikolovv/devadventures-net-core-template/tree/master/source)), you can use this tool to export a ready-to-install Visual Studio extension instantly. The generated extension will contain a template that will initialize your project as you imported it.
+
+## Table of contents
+
+1. [What this tool does in pictures](#what-this-tool-does-in-pictures)
+2. [Assumptions made](#assumption)
+3. [An example project that uses this tool](#an-example-project-that-uses-it)
+4. [What you can use it for](#what-you-could-use-it-for)
+5. [Usage](#usage)
+6. [Minimal usage](#minimal-usage)
+7. [Contributing](#contributing)
 
 ## What this tool does in pictures
 
@@ -241,6 +251,31 @@ Example:
 Successfully converted <YourProject>.sln to a template!
 You'll find the zipped template at 'C:\some-path\Template.zip' and VSIX project at 'C:\some-path\SomeRandomWizard.csproj'.
 ```
+
+## Minimal usage
+
+If you want to get started quickly, simply download the latest **.exe** from the [releases page](https://github.com/dnikolovv/solution-snapshotter/releases), copy the following command and adjust the `path-to-sln`, `root-project-namespace` and `vsix-overview-md-path` parameters. The `overview.md` can be an empty **.md** path.
+
+> Note: Don't expect to know what each parameter means if you're not familiar with the VSIX project type. Most of the parameters can and will be made optional in a future release.
+
+```console
+> solution-snapshotter.exe inline ^ 
+--template-name MyAmazingSetup --template-description "It's truly amazing." ^ 
+--path-to-sln "MyProject.sln" --root-project-namespace "MyProject" --folders-to-ignore ["bin",".vs"] ^ 
+--file-extensions-to-ignore [".csproj.user"] --vsix-display-name "MyAmazingSetup Extension" ^ 
+--vsix-description "MyAmazingSetup's description" --vsix-more-info "https://moreinfo.net" ^ 
+--vsix-getting-started "https://gettingstarted.net" --vsix-price-category free --vsix-qna-enable true ^ 
+--vsix-categories "other templates" --vsix-internal-name a-unique-internal-name ^ 
+--vsix-overview-md-path "..\overview.md" --template-wizard-assembly "MyAmazingSetupWizard" ^ 
+--vsix-version 1.0 --vsix-publisher-full-name "John Smith" --vsix-publisher-username "random-publisher"
+```
+
+You'll find your Visual Studio extension project under `C:\generated-template\vsix`.
+
+There are two ways to test your template.
+
+1. Open the VSIX project inside Visual Studio and hit `Ctrl + F5` to open an experimental VS instance you can test in.
+2. Build the project and install the generated `.vsix` file to your VS instance.
 
 ## Contributing
 
