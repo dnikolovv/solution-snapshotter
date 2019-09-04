@@ -254,7 +254,7 @@ You'll find the zipped template at 'C:\some-path\Template.zip' and VSIX project 
 
 ## Minimal usage
 
-If you want to get started quickly, simply download the latest **.exe** from the [releases page](https://github.com/dnikolovv/solution-snapshotter/releases), copy the following command and adjust the `path-to-sln`, `root-project-namespace` and `vsix-overview-md-path` parameters. The `overview.md` can be an empty **.md** path.
+If you want to get started quickly, simply download the latest **.exe** from the [releases page](https://github.com/dnikolovv/solution-snapshotter/releases), copy the following command and adjust the `path-to-sln`, `root-project-namespace` and `vsix-overview-md-path` parameters. The `overview.md` can be an empty **.md** file.
 
 > Note: Don't expect to know what each parameter means if you're not familiar with the VSIX project type. Most of the parameters can and will be made optional in a future release.
 
