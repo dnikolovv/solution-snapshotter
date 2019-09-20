@@ -13,12 +13,13 @@ If you have your project setup ready ([like this, for example](https://github.co
 ## Table of contents
 
 1. [What this tool does in pictures](#what-this-tool-does-in-pictures)
-2. [Assumptions made](#assumption)
-3. [An example project that uses this tool](#an-example-project-that-uses-it)
-4. [What you can use it for](#what-you-could-use-it-for)
-5. [Usage](#usage)
-6. [Minimal usage](#minimal-usage)
-7. [Contributing](#contributing)
+2. [Requirements](#requirements)
+3. [Assumptions made](#assumption)
+4. [An example project that uses this tool](#an-example-project-that-uses-it)
+5. [What you can use it for](#what-you-could-use-it-for)
+6. [Usage](#usage)
+7. [Minimal usage](#minimal-usage)
+8. [Contributing](#contributing)
 
 ## What this tool does in pictures
 
@@ -62,6 +63,12 @@ With any extra folders and files included (these could also be docker compose co
 And all references being valid (given that your source project was in a good state):
 
 ![13](example-pictures/step13.PNG)
+
+## Requirements
+
+In order to build the generated VSIX (Visual Studio extension) project, you will need to have installed the `Visual Studio extension development` toolkit using the `Visual Studio Installer`.
+
+![ext-dev](vs-ext-development.PNG)
 
 ## Assumption
 
@@ -254,15 +261,15 @@ You'll find the zipped template at 'C:\some-path\Template.zip' and VSIX project 
 
 ## Minimal usage
 
-If you want to get started quickly, simply download the latest **.exe** from the [releases page](https://github.com/dnikolovv/solution-snapshotter/releases), copy the following command and adjust the `path-to-sln`, `root-project-namespace` and `vsix-overview-md-path` parameters. The `overview.md` can be an empty **.md** file.
+If you want to get started quickly, simply download the latest **.exe** from the [releases page](https://github.com/dnikolovv/solution-snapshotter/releases), copy the following command and adjust the `path-to-sln`, `root-project-namespace` and `vsix-overview-md-path` parameters. The `overview.md` can be an empty **.md** file. Also, make sure to exclude the **.vs** folder.
 
-> Note: Don't expect to know what each parameter means if you're not familiar with the VSIX project type. Most of the parameters can and will be made optional in a future release.
+> Note: Don't expect to know what each parameter means if you're not familiar with the VSIX project type. Most of the parameters can and **will** be made optional in a future release.
 
 ```console
 > solution-snapshotter.exe inline ^ 
 --template-name MyAmazingSetup --template-description "It's truly amazing." ^ 
---path-to-sln "MyProject.sln" --root-project-namespace "MyProject" --folders-to-ignore ["bin",".vs"] ^ 
---file-extensions-to-ignore [".csproj.user"] --vsix-display-name "MyAmazingSetup Extension" ^ 
+--path-to-sln "MyProject.sln" --root-project-namespace "MyProject" --folders-to-ignore "bin" ".vs" ^ 
+--file-extensions-to-ignore ".csproj.user" --vsix-display-name "MyAmazingSetup Extension" ^ 
 --vsix-description "MyAmazingSetup's description" --vsix-more-info "https://moreinfo.net" ^ 
 --vsix-getting-started "https://gettingstarted.net" --vsix-price-category free --vsix-qna-enable true ^ 
 --vsix-categories "other templates" --vsix-internal-name a-unique-internal-name ^ 
@@ -271,6 +278,10 @@ If you want to get started quickly, simply download the latest **.exe** from the
 ```
 
 You'll find your Visual Studio extension project under `C:\generated-template\vsix`.
+
+Note that to build the generated project you will need to have installed the `Visual Studio extension development` kit using the `Visual Studio Installer`.
+
+![ext-dev](vs-ext-development.PNG)
 
 There are two ways to test your template.
 
