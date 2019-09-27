@@ -265,6 +265,8 @@ If you want to get started quickly, simply download the latest **.exe** from the
 
 > Note: Don't expect to know what each parameter means if you're not familiar with the VSIX project type. Most of the parameters can and **will** be made optional in a future release.
 
+The `^` signs serve as newline characters in Windows's `cmd`. Remove them if you are not using it.
+
 ```console
 > solution-snapshotter.exe inline ^ 
 --template-name MyAmazingSetup --template-description "It's truly amazing." ^ 
