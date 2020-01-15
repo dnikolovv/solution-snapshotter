@@ -10,6 +10,8 @@ In the context of this project, a snapshot means an exported Visual Studio templ
 
 If you have your project setup ready ([like this, for example](https://github.com/dnikolovv/devadventures-net-core-template/tree/master/source)), you can use this tool to export a ready-to-install Visual Studio extension instantly. The generated extension will contain a template that will initialize your project as you imported it.
 
+You can also read my [DotNetCurry article](https://www.dotnetcurry.com/visual-studio/1521/visual-studio-project-setup-solution-snapshotter) on why this tool was made and what problems does it solve.
+
 ## Table of contents
 
 1. [What this tool does in pictures](#what-this-tool-does-in-pictures)
