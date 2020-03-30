@@ -1,10 +1,7 @@
 module Tests
 
-open System
 open Xunit
-open Program
 open System.IO
-open UtilTypes
 open Argu
 open CLI
 open Types
@@ -56,7 +53,8 @@ let ``Dev Adventures Project Setup`` () =
                  "MyProject.Core";
                  "MyProject.Business";
                  "MyProject.Data";
-                 "MyProject.Data.EntityFramework";]
+                 "MyProject.Data.EntityFramework";
+                 "configuration*"]
             |> shouldNotContainFolders
                 ["toBeIgnored*";
                  "toBeAlsoIgnored*"]
